@@ -40,4 +40,10 @@ A Django-based web application that follows the Model View Controller (MVC) para
 - [Black](https://pypi.org/project/black/)
   - Usage: `black source_file_or_directory`
 
+## Unit Tests
+- [Coverage](https://coverage.readthedocs.io/en/7.2.7/)
+  - Run the unit tests in the project `coverage run manage.py test`
+  - Generate coverage report in the Terminal  `coverage report`
+  - Generate HTML coverage report `coverage html`
+
 
