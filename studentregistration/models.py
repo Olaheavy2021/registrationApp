@@ -1,6 +1,5 @@
 from django.db import models
 from users.models import Student
-from django.contrib.auth.models import Group
 
 
 class Module(models.Model):
