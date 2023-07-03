@@ -19,7 +19,7 @@ A Django-based web application that follows the Model View Controller (MVC) para
 
 - Create the virtual environment `python3 -m venv .venv`
 - Active the virtual environment for example ubuntu `source .venv/bin/activate`
-- Install django in the virtual environment `pip3 install django`
+- Install requirements in the virtual environment `pip3 install -r requirements.txt`
 - Run the application `python3 manage.py runserver`
 
 ### Windows
@@ -28,7 +28,7 @@ A Django-based web application that follows the Model View Controller (MVC) para
 - Create the virtual environment `virtualenv .venv`
 - Navigate into the created virtual environment directory `cd .venv/Scripts`
 - Activate the virtual environment `activate`
-- Install django in the virtual environment `pip install django`
+- Install requirements in the virtual environment `pip install -r requirements.txt`
 - Run the application `python manage.py runserver`
 
 ## Contributing to the Project
