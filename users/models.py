@@ -8,5 +8,12 @@ class Student(models.Model):
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to="profile_photos")
+    photo = models.ImageField(default="default.png", upload_to="profile_photos")
     course = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name} "
+
+    class Meta:
+        verbose_name = "Student"
+        verbose_name_plural = "Students"

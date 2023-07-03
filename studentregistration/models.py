@@ -12,8 +12,22 @@ class Module(models.Model):
     available = models.BooleanField(default=True)
     # course = models.ManyToManyField(Group, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Module"
+        verbose_name_plural = "Modules"
+
 
 class Registration(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     registration_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.user.user_name} - {self.module.name}"
+
+    class Meta:
+        verbose_name = "Registration"
+        verbose_name_plural = "Registrations"
