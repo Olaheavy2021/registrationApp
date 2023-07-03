@@ -1,11 +1,10 @@
 from django.urls import path
-from .import views
+from . import views
 
-app_name='studentregistration'
+app_name = "studentregistration"
 
-urlpatterns = [ 
-
-    path('', views.home, name='home'),
-    path('about/', views.about, name= 'about'),
-    path('contact/', views.contact, name='contact')
+urlpatterns = [
+    path("", views.home, name="home"),
+    path("about/", views.about, name="about"),
+    path("contact/", views.contact, name="contact"),
 ]
