@@ -1,3 +1,11 @@
 .venv
 *.pyc
 .idea
+*.log
+*.pot
+__pycache__
+
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
