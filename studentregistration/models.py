@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Student
+from users.models import Student, Group
 
 
 class Module(models.Model):
@@ -9,7 +9,7 @@ class Module(models.Model):
     category = models.CharField(max_length=255)
     description = models.TextField()
     available = models.BooleanField(default=True)
-    # course = models.ManyToManyField(Group, on_delete=models.CASCADE)
+    course = models.ManyToManyField(Group, related_name="modules")
 
     def __str__(self):
         return self.name
