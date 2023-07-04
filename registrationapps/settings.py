@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "studentregistration.apps.StudentregistrationConfig",
     "users.apps.UsersConfig",
-    "jazzmin",
     "crispy_forms",
     "crispy_bootstrap4",
 ]
@@ -147,5 +147,15 @@ JAZZMIN_UI_TWEAKS = {
     "dark_mode_theme": "solar",
 }
 
-
+# Redirect to home URL after login
 LOGIN_REDIRECT_URL = "studentregistration:home"
+
+
+# Email Settings
+# https://docs.djangoproject.com/en/4.2/topics/email/
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sunkanmiolawuwo.gas@gmail.com'
+EMAIL_HOST_PASSWORD = 'ysfwkdhlrzazpuue'
+EMAIL_USE_TLS = True

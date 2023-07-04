@@ -121,6 +121,11 @@
       type="text/css"
       href="{% static 'assets/css/style.css' %}"
     />
+      <!-- Alertify -->
+       <!-- Alertify CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
   </head>
 
   <body>
@@ -239,7 +244,7 @@
             <!-- Nav Main menu END -->
           </div>
           <!-- Main navbar END -->
-          {% if user.is_authenticated %}
+
           <!-- Profile START -->
           <div class="dropdown ms-1 ms-lg-0">
             <a
@@ -254,7 +259,7 @@
             >
               <img
                 class="avatar-img rounded-circle"
-                src="{{user.student.photo.url}}"
+                src="{% static 'assets/images/avatar/01.gif' %}"
                 alt="avatar"
               />
             </a>
@@ -262,6 +267,7 @@
               class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3"
               aria-labelledby="profileDropdown"
             >
+                 {% if user.is_authenticated %}
               <!-- Profile info -->
               <li class="px-3 mb-3">
                 <div class="d-flex align-items-center">
@@ -292,6 +298,7 @@
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
+                 {% endif %}
               <!-- Dark mode options START -->
               <li>
                 <div
@@ -366,7 +373,7 @@
             </ul>
           </div>
           <!-- Profile END -->
-          {% endif %}
+
         </div>
       </nav>
       <!-- Logo Nav END -->
@@ -375,11 +382,6 @@
 
     <!-- **************** MAIN CONTENT START **************** -->
     <main>
-      {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{message.tags}}">{{ message }}</div>
-        {% endfor %}
-      {% endif %} 
       {% block content %} {% endblock %}
     </main>
     <!-- **************** MAIN CONTENT END **************** -->
@@ -571,5 +573,17 @@ Footer END -->
 
     <!-- Template Functions -->
     <script src="{% static 'assets/js/functions.js' %}"></script>
+
+  <!-- Alertify   -->
+     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+               alertify.set('notifier','position', 'top-right');
+               alertify.notify('{{message}}', '{{message.tags}}', 5, function(){ });
+            {% endfor %}
+        {% endif %}
+    </script>
   </body>
 </html>
