@@ -20,10 +20,10 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             email = EmailMessage(
-                f"{form.cleaned_data['name']} - {form.cleaned_data['subject']}",
+                f" CloudGeeks - {form.cleaned_data['name']} - {form.cleaned_data['subject']}",
                 form.cleaned_data['message'],
                 form.cleaned_data['email'],
-                [settings.EMAIL_HOST_USER]
+                [settings.EMAIL_HOST_USER, 'themaleem@gmail.com', 'charityodoh75@gmail.com']
             )
 
             email.send(fail_silently=False)

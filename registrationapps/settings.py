@@ -159,5 +159,3 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'sunkanmiolawuwo.gas@gmail.com'
 EMAIL_HOST_PASSWORD = 'ysfwkdhlrzazpuue'
 EMAIL_USE_TLS = True
-
-
