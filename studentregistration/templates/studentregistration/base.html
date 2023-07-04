@@ -208,19 +208,29 @@
                     >Contact</a
                   >
                 </li>
+               
+                {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link"
+                      href="#">
+                        Dashboard
+                    </a>
+                  </li>                 
+                {% else %}
+                  <!-- Nav item 4 Megamenu-->
+                  <li class="nav-item">
+                      <a class="nav-link {% if url_name == 'login' %}active{% endif %}"
+                        href="{% url 'login' %}">
+                          Login
+                      </a>
+                  </li>
 
-                <!-- Nav item 4 Megamenu-->
-                <li class="nav-item">
-                    <a class="nav-link {% if url_name == 'login' %}active{% endif %}"
-                       href="{% url 'login' %}">
-                        Login
-                    </a></li>
-
-                <!-- Nav item 5 link-->
-                <li class="nav-item">
-                  <a class="nav-link {% if url_name == 'register' %}active{% endif %}"
-                     href="{% url 'register' %}">Register</a>
-                </li>
+                  <!-- Nav item 5 link-->
+                  <li class="nav-item">
+                    <a class="nav-link {% if url_name == 'register' %}active{% endif %}"
+                      href="{% url 'register' %}">Register</a>
+                  </li>
+                {% endif %}
               </ul>
               <!-- Nav Main menu END -->
                 {% endwith %}
@@ -234,7 +244,7 @@
             <!-- Nav Main menu END -->
           </div>
           <!-- Main navbar END -->
-
+          {% if user.is_authenticated %}
           <!-- Profile START -->
           <div class="dropdown ms-1 ms-lg-0">
             <a
@@ -249,7 +259,7 @@
             >
               <img
                 class="avatar-img rounded-circle"
-                src="{% static 'assets/images/avatar/01.gif' %}"
+                src="{{user.student.photo.url}}"
                 alt="avatar"
               />
             </a>
@@ -264,25 +274,25 @@
                   <div class="avatar me-3">
                     <img
                       class="avatar-img rounded-circle shadow"
-                      src="{% static 'assets/images/avatar/02.png' %}"
+                      src="{{user.student.photo.url}}"
                       alt="avatar"
                     />
                   </div>
                   <div>
-                    <a class="h6" href="#">Lori Ferguson</a>
-                    <p class="small m-0">example@gmail.com</p>
+                    <a class="h6" href="#">{{user.first_name}} {{user.last_name}}</a>
+                    <p class="small m-0">{{user.email}}</p>
                   </div>
                 </div>
               </li>
               <li><hr class="dropdown-divider" /></li>
               <!-- Links -->
               <li>
-                <a class="dropdown-item" href="#"
-                  ><i class="bi bi-person fa-fw me-2"></i>Edit Profile</a
-                >
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-person fa-fw me-2"></i>Edit Profile
+                  </a>
               </li>
               <li>
-                <a class="dropdown-item bg-danger-soft-hover" href="#"
+                <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"
                   ><i class="bi bi-power fa-fw me-2"></i>Sign Out</a
                 >
               </li>
@@ -360,7 +370,8 @@
               <!-- Dark mode options END-->
             </ul>
           </div>
-          <!-- Profile START -->
+          <!-- Profile END -->
+          {% endif %}
         </div>
       </nav>
       <!-- Logo Nav END -->
@@ -368,7 +379,14 @@
     <!-- Header END -->
 
     <!-- **************** MAIN CONTENT START **************** -->
-    <main>{% block content %} {% endblock %}</main>
+    <main>
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}}">{{ message }}</div>
+        {% endfor %}
+      {% endif %} 
+      {% block content %} {% endblock %}
+    </main>
     <!-- **************** MAIN CONTENT END **************** -->
 
     <!-- =======================

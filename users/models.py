@@ -4,10 +4,10 @@ from django.contrib.auth.models import User, Group
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dob = models.DateField()
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
+    dob = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=255, blank=True, null=True)
     photo = models.ImageField(default="default.png", upload_to="profile_photos")
     course = models.ForeignKey(Group, on_delete=models.CASCADE)
 
