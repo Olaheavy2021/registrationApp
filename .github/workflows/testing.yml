@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+env:
+  EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+  EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+
 jobs:
   build:
 

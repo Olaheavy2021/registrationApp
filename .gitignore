@@ -5,6 +5,9 @@
 *.pot
 __pycache__
 
+# Environment Variables #
+registrationapps/.env
+
 
 # Visual Studio Code # 
 .vscode/* 
