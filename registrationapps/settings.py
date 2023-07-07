@@ -81,7 +81,7 @@ WSGI_APPLICATION = "registrationapps.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': env('AZURE_DB_NAME'),
         'HOST': env('AZURE_DB_HOST'),
         'PORT': env('AZURE_DB_PORT'),
@@ -167,4 +167,3 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
-
