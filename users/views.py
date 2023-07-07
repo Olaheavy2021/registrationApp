@@ -19,7 +19,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "Successfully logged in")
-                return redirect("studentregistration:home")
+                return redirect("dashboard")
             else:
                 messages.warning(request, "Unable to  login!")
     else:
@@ -51,6 +51,18 @@ def register(request):
 
     context = {"title": "Sign Up", "form": form}
     return render(request, "users/register.html", context)
+
+
+def dashboard(request):
+    return render(request, "users/dashboard.html", {"title": "Student Dashboard"})
+
+
+def profile(request):
+    return render(request, "users/profile.html", {"title": "Student Profile"})
+
+
+def reset_password(request):
+    return render(request, "users/reset_password.html", {"title": "Reset Password"})
 
 
 class CustomLogoutView(LogoutView):

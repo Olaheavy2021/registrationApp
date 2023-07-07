@@ -19,6 +19,8 @@ from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+
+import users.views
 from users import views as user_views
 
 
@@ -28,4 +30,7 @@ urlpatterns = [
     path("login/", user_views.login_view, name="login"),
     path("register", user_views.register, name="register"),
     path("logout/", user_views.CustomLogoutView.as_view(), name="logout"),
+    path("student/dashboard/", users.views.dashboard, name="dashboard"),
+    path("student/profile/", users.views.profile, name="profile"),
+    path("student/reset_password/", users.views.reset_password, name="reset_password"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
