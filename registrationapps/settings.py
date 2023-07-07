@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.mysql',
         'NAME': env('AZURE_DB_NAME'),
-        'HOST':env('AZURE_DB_HOST'),
-        'PORT':env('AZURE_DB_PORT'),
-        'USER':env('AZURE_DB_USER'),
-        'PASSWORD':env('AZURE_DB_PASSWORD')
+        'HOST': env('AZURE_DB_HOST'),
+        'PORT': env('AZURE_DB_PORT'),
+        'USER': env('AZURE_DB_USER'),
+        'PASSWORD': env('AZURE_DB_PASSWORD')
     }
 }
 
