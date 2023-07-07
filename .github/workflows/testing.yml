@@ -12,6 +12,11 @@ on:
 env:
   EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
   EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+  AZURE_DB_NAME: ${{ secrets.AZURE_DB_NAME }}
+  AZURE_DB_HOST: ${{ secrets.AZURE_DB_HOST }}
+  AZURE_DB_PORT: ${{ secrets.AZURE_DB_PORT }}
+  AZURE_DB_USER: ${{ secrets.AZURE_DB_USER }}
+  AZURE_DB_PASSWORD: ${{ secrets.AZURE_DB_PASSWORD }}
 
 jobs:
   build:
