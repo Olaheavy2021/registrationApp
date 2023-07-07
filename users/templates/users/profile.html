@@ -22,7 +22,7 @@
 									<label class="position-relative me-4" for="uploadfile-1" title="Replace this pic">
 										<!-- Avatar place holder -->
 										<span class="avatar avatar-xl">
-											<img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="assets/images/avatar/07.jpg" alt="">
+											<img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="{{user.student.photo.url}}" alt="Profile Picture">
 										</span>
 										<!-- Remove btn -->
 										<button type="button" class="uploadremove"><i class="bi bi-x text-white"></i></button>
@@ -37,8 +37,8 @@
 							<div class="col-12">
 								<label class="form-label">Full name</label>
 								<div class="input-group">
-									<input type="text" class="form-control" value="Lori" placeholder="First name">
-									<input type="text" class="form-control" value="Stevens" placeholder="Last name">
+									<input type="text" class="form-control" placeholder="First name">
+									<input type="text" class="form-control" placeholder="Last name">
 								</div>
 							</div>
 
@@ -46,33 +46,33 @@
 							<div class="col-md-6">
 								<label class="form-label">Username</label>
 								<div class="input-group">
-									<span class="input-group-text">Eduport.com</span>
-									<input type="text" class="form-control" value="loristev">
+									<span class="input-group-text">CloudGeeks</span>
+									<input type="text" class="form-control" >
 								</div>
 							</div>
 
 							<!-- Email id -->
 							<div class="col-md-6">
 								<label class="form-label">Email id</label>
-								<input class="form-control" type="email" value="example@gmail.com"  placeholder="Email">
+								<input class="form-control" type="email" placeholder="Email">
 							</div>
 
 							<!-- Phone number -->
 							<div class="col-md-6">
 								<label class="form-label">Phone number</label>
-								<input type="text" class="form-control" value="1234567890" placeholder="Phone number">
+								<input type="text" class="form-control" placeholder="Phone number">
 							</div>
 
 							<!-- Location -->
 							<div class="col-md-6">
 								<label class="form-label">Location</label>
-								<input class="form-control" type="text" value="California">
+								<input class="form-control" type="text">
 							</div>
 
 							<!-- Course -->
 							<div class="col-12">
 								<label class="form-label">Course</label>
-								<input class="form-control mb-2" type="text" value="Bachelor in Computer Graphics">
+								<input class="form-control mb-2" type="text">
 							</div>
 
 							<!-- Save button -->
