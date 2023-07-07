@@ -195,108 +195,20 @@ Listed course START -->
 
 		<div class="row g-4">
 			<!-- Item -->
+			{% for course in courses %}
+
 			<div class="col-sm-6 col-md-4 col-xl-3">
 				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
 					<!-- Image -->
 					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/data-science.svg' %}" alt="">
+						<img src="{% static 'assets/images/element/course' %}{{forloop.counter}}.svg" alt="">
 					</div>
 					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Advanced Computer Networks</a></h5>
+					<h5 class="mb-1"><a href="#" class="stretched-link">{{ course.name }}</a></h5>
 					<span class="mb-0">5 Modules</span>
 				</div>
 			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/online.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Artificial Intelligence</a></h5>
-					<span class="mb-0">6 Modules</span>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/engineering.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Data Analytics with Finance</a></h5>
-					<span class="mb-0">7 Course</span>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/coding.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Information Technology</a></h5>
-					<span class="mb-0">25 Course</span>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/profit.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Healthcare Analytics</a></h5>
-					<span class="mb-0">20 Course</span>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/medical.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Software Engineering</a></h5>
-					<span class="mb-0">10 Course</span>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/home.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Quality Assurance Engineering</a></h5>
-					<span class="mb-0">30 Course</span>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="col-sm-6 col-md-4 col-xl-3">
-				<div class="bg-primary bg-opacity-10 rounded-3 text-center p-3 position-relative btn-transition">
-					<!-- Image -->
-					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-						<img src="{% static 'assets/images/element/artist.svg' %}" alt="">
-					</div>
-					<!-- Title -->
-					<h5 class="mb-1"><a href="#" class="stretched-link">MSc Robotics & Cybernetics</a></h5>
-					<span class="mb-0">35 Course</span>
-				</div>
-			</div>
+			{% endfor %}
 		</div>
 	</div>
 </section>

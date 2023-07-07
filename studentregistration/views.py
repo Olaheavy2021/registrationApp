@@ -3,12 +3,14 @@ from .forms import ContactForm
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
+from .models import Group
 
 # Create your views here
 
 
 def home(request):
-    return render(request, "studentregistration/home.html", {"title": "Welcome"})
+    all_courses = {'courses': Group.objects.all(), "title": "Welcome"}
+    return render(request, "studentregistration/home.html", all_courses)
 
 
 def about(request):
