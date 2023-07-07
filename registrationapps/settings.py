@@ -78,10 +78,15 @@ WSGI_APPLICATION = "registrationapps.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('AZURE_DB_NAME'),
+        'HOST': env('AZURE_DB_HOST'),
+        'PORT': env('AZURE_DB_PORT'),
+        'USER': env('AZURE_DB_USER'),
+        'PASSWORD': env('AZURE_DB_PASSWORD')
     }
 }
 
