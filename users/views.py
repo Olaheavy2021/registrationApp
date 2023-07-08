@@ -73,6 +73,7 @@ def reset_password(request):
 class CustomLogoutView(LogoutView):
     next_page = "studentregistration:home"
 
+
 def reset_password(request):
     if request.method == 'POST':
         form = CustomPasswordChangeForm(request.user, request.POST)
@@ -83,6 +84,7 @@ def reset_password(request):
             return redirect('dashboard')
         else:
             messages.error(request, 'Please correct the error below.')
+            return render(request, 'users/reset_password.html', {'form': form})
     else:
         form = CustomPasswordChangeForm(request.user)
     return render(request, 'users/reset_password.html', {'form': form})
