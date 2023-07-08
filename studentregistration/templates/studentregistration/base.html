@@ -130,7 +130,7 @@
 
 <body>
 <!-- Header START -->
-<header class="navbar-light navbar-sticky header-static">
+<header class="navbar-light navbar-sticky header-static bg-light">
     <!-- Logo Nav START -->
     <nav class="navbar navbar-expand-xl">
         <div class="container">
@@ -206,6 +206,15 @@
                                         class="nav-link {% if url_name == 'contact' %}active{% endif %}"
                                         href="{% url 'studentregistration:contact' %}"
                                 >Contact</a
+                                >
+                            </li>
+
+                            <!-- Nav item 4 Account -->
+                            <li class="nav-item">
+                                <a
+                                        class="nav-link {% if url_name == 'course_list' %}active{% endif %}"
+                                        href="{% url 'studentregistration:course_list' %}"
+                                >Courses</a
                                 >
                             </li>
 
@@ -392,7 +401,7 @@
 
 <!-- =======================
 Footer START -->
-<footer class="pt-5">
+<footer class="pt-5 bg-light">
     <div class="container">
         <!-- Row START -->
         <div class="row g-4">

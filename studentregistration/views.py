@@ -5,10 +5,12 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from .models import Group
 
+
 # Create your views here
 
 
 def home(request):
+    # load the courses from the database
     all_courses = {'courses': Group.objects.all(), "title": "Welcome"}
     return render(request, "studentregistration/home.html", all_courses)
 
@@ -37,3 +39,8 @@ def contact(request):
     else:
         form = ContactForm()
     return render(request, "studentregistration/contact.html", {"title": "Contact", 'form': form})
+
+
+def course_list(request):
+    all_courses = {'courses': Group.objects.all(), "title": "Our Courses"}
+    return render(request, "studentregistration/course_list.html", all_courses)
