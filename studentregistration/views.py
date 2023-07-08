@@ -44,3 +44,10 @@ def contact(request):
 def course_list(request):
     all_courses = {'courses': Group.objects.all(), "title": "Our Courses"}
     return render(request, "studentregistration/course_list.html", all_courses)
+
+
+def course_details(request, id=1):
+    course = Group.objects.get(id=id)
+    modules = course.modules.all()
+    course_view_details = {'course': course, 'modules': modules, "title": "Course Details"}
+    return render(request, "studentregistration/course_details.html", course_view_details)
