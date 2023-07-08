@@ -224,7 +224,7 @@
                                 <img src="{% static 'assets/images/element/course' %}{{ forloop.counter }}.svg" alt="">
                             </div>
                             <!-- Title -->
-                            <h5 class="mb-1"><a href="#" class="stretched-link">{{ course.name }}</a></h5>
+                            <h5 class="mb-1"><a href="{% url 'studentregistration:course_details' course.id %}" class="stretched-link">{{ course.name }}</a></h5>
                             <span class="mb-0">5 Modules</span>
                         </div>
                     </div>
