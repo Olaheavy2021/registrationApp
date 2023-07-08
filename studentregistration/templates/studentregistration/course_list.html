@@ -52,7 +52,7 @@
                                 <div class="input-group">
                                     <input class="form-control border-0 me-1" type="search"
                                            placeholder="Search course ">
-                                    <button type="button" class="btn btn-dark mb-0 rounded">Search</button>
+                                    <button type="button" class="btn btn-purple mb-0 rounded">Search</button>
                                 </div>
                             </form>
                         </div>
@@ -78,24 +78,27 @@
             <div class="row mb-4">
                 <div class="col-lg-8 mx-auto text-center">
                     <h2>Choose a Course</h2>
-                    <p class="mb-0">Study with us and you'll be challenged and supported, so that you can achieve great things</p>
+                    <p class="mb-0">Study with us and you'll be challenged and supported, so that you can achieve great
+                        things</p>
                 </div>
             </div>
 
             <div class="row g-4">
                 <!-- Item -->
                 {% for course in courses %}
-                <div class="col-sm-6 col-md-4 col-xl-3 col-lg-3">
-                    <div style="height: 250px;" class="card card-body bg-purple bg-opacity-10 text-center position-relative btn-transition p-4">
-                        <!-- Image -->
-                        <div class="icon-xl bg-body mx-auto rounded-circle mb-3">
-                            <img src="{% static 'assets/images/element/course' %}{{forloop.counter}}.svg" alt="">
+                    <div class="col-sm-6 col-md-4 col-xl-3 col-lg-3">
+                        <div style="height: 250px;"
+                             class="card card-body bg-purple bg-opacity-10 text-center position-relative btn-transition p-4">
+                            <!-- Image -->
+                            <div class="icon-xl bg-body mx-auto rounded-circle mb-3">
+                                <img src="{% static 'assets/images/element/course' %}{{ forloop.counter }}.svg" alt="">
+                            </div>
+                            <!-- Title -->
+                            <h5 class="mb-2"><a href="{% url 'studentregistration:course_details' course.id %}"
+                                                class="stretched-link">{{ course.name }}</a></h5>
+                            <h6 class="mb-0">35 Courses</h6>
                         </div>
-                        <!-- Title -->
-                        <h5 class="mb-2"><a href="#" class="stretched-link">{{ course.name }}</a></h5>
-                        <h6 class="mb-0">35 Courses</h6>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </div>
@@ -104,45 +107,48 @@
     Categories END -->
     <!-- =======================
 Action box START -->
-<section>
-	<div class="container">
-		<div class="row g-4">
-			<!-- Action box item -->
-			<div class="col-lg-6 position-relative overflow-hidden">
-				<div class="bg-primary bg-opacity-10 rounded-3 p-5 h-100">
-					<!-- Image -->
-					<div class="position-absolute bottom-0 end-0 me-3">
-						<img src="{% static 'assets/images/element/course-list-01.svg' %}" class="h-100px h-sm-200px" alt="">
-					</div>
-					<!-- Content -->
-					<div class="row">
-						<div class="col-sm-8 position-relative">
-							<h3 class="mb-1">Earn a Certificate</h3>
-							<p class="mb-3 h5 fw-light lead">Our mission is simple: we transform lives. </p>
-						</div>
-					</div>
-				</div>
-			</div>
+    <section>
+        <div class="container">
+            <div class="row g-4">
+                <!-- Action box item -->
+                <div class="col-lg-6 position-relative overflow-hidden">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-5 h-100">
+                        <!-- Image -->
+                        <div class="position-absolute bottom-0 end-0 me-3">
+                            <img src="{% static 'assets/images/element/course-list-01.svg' %}"
+                                 class="h-100px h-sm-200px" alt="">
+                        </div>
+                        <!-- Content -->
+                        <div class="row">
+                            <div class="col-sm-8 position-relative">
+                                <h3 class="mb-1">Earn a Certificate</h3>
+                                <p class="mb-3 h5 fw-light lead">Our mission is simple: we transform lives. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			<!-- Action box item -->
-			<div class="col-lg-6 position-relative overflow-hidden">
-				<div class="bg-secondary rounded-3 bg-opacity-10 p-5 h-100">
-					<!-- Image -->
-					<div class="position-absolute bottom-0 end-0 me-3">
-						<img src="{% static 'assets/images/element/course-list-02.svg' %}" class="h-100px h-sm-200px" alt="">
-					</div>
-					<!-- Content -->
-					<div class="row">
-						<div class="col-sm-8 position-relative">
-							<h3 class="mb-1">Best Rated Courses</h3>
-							<p class="mb-3 h5 fw-light lead">Enroll now in the most popular and best rated courses.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- =======================
-Action box END -->
+                <!-- Action box item -->
+                <div class="col-lg-6 position-relative overflow-hidden">
+                    <div class="bg-secondary rounded-3 bg-opacity-10 p-5 h-100">
+                        <!-- Image -->
+                        <div class="position-absolute bottom-0 end-0 me-3">
+                            <img src="{% static 'assets/images/element/course-list-02.svg' %}"
+                                 class="h-100px h-sm-200px" alt="">
+                        </div>
+                        <!-- Content -->
+                        <div class="row">
+                            <div class="col-sm-8 position-relative">
+                                <h3 class="mb-1">Best Rated Courses</h3>
+                                <p class="mb-3 h5 fw-light lead">Enroll now in the most popular and best rated
+                                    courses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Action box END -->
 {% endblock %}
