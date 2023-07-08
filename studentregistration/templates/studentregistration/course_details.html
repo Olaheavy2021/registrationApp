@@ -1,0 +1,121 @@
+{% extends "studentregistration/base.html" %}
+{% block content %} {% load static %}
+    <!-- =======================
+    Page Banner START -->
+    <section class="py-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bg-dark p-4 text-center rounded-3">
+                        <h1 class="text-white m-0">{{ course.name }}</h1>
+                        <!-- Breadcrumb -->
+                        <div class="d-flex justify-content-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb breadcrumb-dark breadcrumb-dots mb-0">
+                                    <li class="breadcrumb-item active fs-3" aria-current="page">List of Modules</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Page Banner END -->
+
+    <!-- =======================
+    Inner part START -->
+    <section class="pt-4">
+        <div class="container">
+            <!-- Instructor list START -->
+            <div class="row g-4 justify-content-center">
+
+                <!-- Card item START -->
+                {% for module in modules %}
+                    <div class="col-lg-10 col-xl-6">
+                        <div class="card shadow p-2">
+                            <div class="row g-0">
+                                <!-- Image -->
+                                <div class="col-md-4">
+                                    <img src="{% static 'assets/images/courses/4by3/module' %}{{ forloop.counter }}.jpg"
+                                         class="rounded-3" alt="...">
+                                </div>
+
+                                <!-- Card body -->
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <!-- Title -->
+                                        <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
+                                            <div>
+                                                <h5 class="card-title mb-0"><a href="#"
+                                                                               class="text-purple">{{ module.name }}</a>
+                                                </h5>
+                                                <p class="small mb-2 mb-sm-0 text-purple">{{ module.code }}</p>
+                                            </div>
+                                            <span class="h6 fw-light text-purple">{{ module.credit }}<i
+                                                    class="fas fa-star text-warning ms-1"></i></span>
+                                        </div>
+                                        <!-- Content -->
+                                        <p class="text-truncate-2 mb-3">{{ module.description }}</p>
+                                        <!-- Info -->
+                                        <div class="d-sm-flex justify-content-sm-between align-items-center">
+                                            <!-- Title -->
+                                            <h6 class="text-purple mb-0">{{ module.category }}</h6>
+
+                                            <!-- Social button -->
+                                            <ul class="list-inline mb-0 mt-3 mt-sm-0">
+                                                <li class="list-inline-item">
+                                                    {% if module.available %}
+                                                        <a class="mb-0 me-1 text-success-emphasis" href="#">Available <i
+                                                                class="fas fa-lock-open text-success-emphasis"></i></a>
+                                                    {% else %}
+                                                        <a class="mb-0 me-1 text-danger-emphasis" href="#">Closed <i
+                                                                class="fas fa-lock text-danger"></i></a>
+                                                    {% endif %}
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card item END -->
+                {% empty %}
+                    <div class="col-lg-10 col-xl-6">
+                        <div class="card shadow p-2">
+                            <div class="row g-0">
+                                <!-- Image -->
+                                <div class="col-md-4">
+                                    <img src="{% static 'assets/images/courses/4by3/error-404.jpg' %}"
+                                         class="rounded-3" alt="...">
+                                </div>
+
+                                <!-- Card body -->
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <!-- Title -->
+                                        <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
+                                            <div>
+                                                <h5 class="card-title mb-0"><a href="#"
+                                                                               class="text-purple">No Modules for this Course</a>
+                                                </h5>
+                                            </div>
+                                            <span class="h6 fw-light text-purple"><i
+                                                    class="fas fa-star text-warning ms-1"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Instructor list END -->
+        </div>
+    </section>
+    <!-- =======================
+    Inner part END -->
+{% endblock %}
