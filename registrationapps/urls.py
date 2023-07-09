@@ -32,5 +32,5 @@ urlpatterns = [
     path("logout/", user_views.CustomLogoutView.as_view(), name="logout"),
     path("student/dashboard/", users.views.dashboard, name="dashboard"),
     path("student/profile/", users.views.profile, name="profile"),
-    path("student/reset_password/", users.views.reset_password, name="reset_password"),
+    path("student/reset-password/", users.views.reset_password, name="reset_password"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

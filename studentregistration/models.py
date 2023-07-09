@@ -13,7 +13,7 @@ class Module(models.Model):
     category = models.CharField(max_length=255, choices=CategoryChoice)
     description = models.TextField()
     available = models.BooleanField(default=True)
-    course = models.ManyToManyField(Group, related_name="modules")
+    courses = models.ManyToManyField(Group, related_name="modules")
 
     def __str__(self):
         return self.name
@@ -26,7 +26,7 @@ class Module(models.Model):
 class Registration(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
-    registration_date = models.DateField(auto_now_add=True)
+    registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.student.user.username} - {self.module.name}"

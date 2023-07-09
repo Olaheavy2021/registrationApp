@@ -1,12 +1,16 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
-# from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from .models import Student
-from .forms import StudentRegistrationForm, CustomLoginForm
+from .forms import (
+    StudentRegistrationForm,
+    CustomLoginForm,
+    UserUpdateForm,
+    ProfileUpdateForm,
+)
 
 
 def login_view(request):
@@ -57,12 +61,31 @@ def dashboard(request):
     return render(request, "users/dashboard.html", {"title": "Student Dashboard"})
 
 
-def profile(request):
-    return render(request, "users/profile.html", {"title": "Student Profile"})
-
-
 def reset_password(request):
     return render(request, "users/reset_password.html", {"title": "Reset Password"})
+
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+        # Handle form submission
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.student
+        )
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile was successfully updated")
+            return redirect("profile")
+        else:
+            messages.warning(request, "Profile could not be updated!")
+    else:
+        # Display the profile form
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.student)
+    context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
+    return render(request, "users/profile.html", context)
 
 
 class CustomLogoutView(LogoutView):
