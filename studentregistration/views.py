@@ -11,7 +11,7 @@ from .models import Group
 
 def home(request):
     # load the courses from the database
-    all_courses = {'courses': Group.objects.all(), "title": "Welcome"}
+    all_courses = {"courses": Group.objects.all(), "title": "Welcome"}
     return render(request, "studentregistration/home.html", all_courses)
 
 
@@ -20,34 +20,54 @@ def about(request):
 
 
 def contact(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
             email = EmailMessage(
                 f" CloudGeeks - {form.cleaned_data['name']} - {form.cleaned_data['subject']}",
-                form.cleaned_data['message'],
-                form.cleaned_data['email'],
-                [settings.EMAIL_HOST_USER, 'themaleem@gmail.com', 'charityodoh75@gmail.com']
+                form.cleaned_data["message"],
+                form.cleaned_data["email"],
+                [
+                    settings.EMAIL_HOST_USER,
+                    "themaleem@gmail.com",
+                    "charityodoh75@gmail.com",
+                ],
             )
 
             email.send(fail_silently=False)
 
-            messages.success(request, 'Your message has been sent. Thank you!')
-            return render(request, 'studentregistration/contact.html', {'title': 'Contact', 'form': ContactForm()})
+            messages.success(request, "Your message has been sent. Thank you!")
+            return render(
+                request,
+                "studentregistration/contact.html",
+                {"title": "Contact", "form": ContactForm()},
+            )
         else:
-            return render(request, 'studentregistration/contact.html', {'title': 'Contact', 'form': form})
+            return render(
+                request,
+                "studentregistration/contact.html",
+                {"title": "Contact", "form": form},
+            )
     else:
         form = ContactForm()
-    return render(request, "studentregistration/contact.html", {"title": "Contact", 'form': form})
+    return render(
+        request, "studentregistration/contact.html", {"title": "Contact", "form": form}
+    )
 
 
 def course_list(request):
-    all_courses = {'courses': Group.objects.all(), "title": "Our Courses"}
+    all_courses = {"courses": Group.objects.all(), "title": "Our Courses"}
     return render(request, "studentregistration/course_list.html", all_courses)
 
 
 def course_details(request, id=1):
     course = Group.objects.get(id=id)
     modules = course.modules.all()
-    course_view_details = {'course': course, 'modules': modules, "title": "Course Details"}
-    return render(request, "studentregistration/course_details.html", course_view_details)
+    course_view_details = {
+        "course": course,
+        "modules": modules,
+        "title": "Course Details",
+    }
+    return render(
+        request, "studentregistration/course_details.html", course_view_details
+    )

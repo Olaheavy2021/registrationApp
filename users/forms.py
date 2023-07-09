@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.forms import PasswordChangeForm
 
 FORM_CLASS_NAME = "form-control border-0 bg-light rounded-end ps-1"
 
@@ -108,4 +108,16 @@ class CustomLoginForm(forms.Form):
                 "id": "inputPassword1",
             }
         )
+    )
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        required=True, widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
+    new_password1 = forms.CharField(
+        required=True, widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
+    new_password2 = forms.CharField(
+        required=True, widget=forms.PasswordInput(attrs={"class": "form-control"})
     )

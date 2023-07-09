@@ -1,12 +1,13 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
-
-# from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
 
 from .models import Student
 from .forms import StudentRegistrationForm, CustomLoginForm
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .forms import CustomPasswordChangeForm
 
 
 def login_view(request):
@@ -61,9 +62,23 @@ def profile(request):
     return render(request, "users/profile.html", {"title": "Student Profile"})
 
 
-def reset_password(request):
-    return render(request, "users/reset_password.html", {"title": "Reset Password"})
-
-
 class CustomLogoutView(LogoutView):
     next_page = "studentregistration:home"
+
+
+def reset_password(request):
+    if request.method == "POST":
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(
+                request, user
+            )  # Important, to update the session with the new password
+            messages.success(request, "Your password was successfully updated!")
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Please correct the error below.")
+            return render(request, "users/reset_password.html", {"form": form})
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, "users/reset_password.html", {"form": form})
