@@ -1,7 +1,9 @@
 from django.contrib import messages
+from .forms import CustomPasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
 from .models import Student
@@ -11,11 +13,6 @@ from .forms import (
     UserUpdateForm,
     ProfileUpdateForm,
 )
-
-from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .forms import CustomPasswordChangeForm
 
 
 def login_view(request):
@@ -66,10 +63,6 @@ def dashboard(request):
     return render(request, "users/dashboard.html", {"title": "Student Dashboard"})
 
 
-def reset_password(request):
-    return render(request, "users/reset_password.html", {"title": "Reset Password"})
-
-
 @login_required
 def profile(request):
     if request.method == "POST":
@@ -91,15 +84,14 @@ def profile(request):
         p_form = ProfileUpdateForm(instance=request.user.student)
     context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
     return render(request, "users/profile.html", context)
-def profile(request):
-    return render(request, "users/profile.html", {"title": "Student Profile"})
 
 
 class CustomLogoutView(LogoutView):
     next_page = "studentregistration:home"
 
 
-def reset_password(request):
+@login_required
+def change_password(request):
     if request.method == "POST":
         form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -111,7 +103,10 @@ def reset_password(request):
             return redirect("dashboard")
         else:
             messages.error(request, "Please correct the error below.")
-            return render(request, "users/reset_password.html", {"form": form})
     else:
         form = CustomPasswordChangeForm(request.user)
-    return render(request, "users/reset_password.html", {"form": form})
+    return render(
+        request,
+        "users/change_password.html",
+        {"form": form, "title": "Change Password"},
+    )

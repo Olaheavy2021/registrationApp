@@ -192,6 +192,8 @@ class ProfileUpdateForm(forms.ModelForm):
                 }
             ),
         }
+
+
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         required=True, widget=forms.PasswordInput(attrs={"class": "form-control"})
