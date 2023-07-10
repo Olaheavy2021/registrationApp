@@ -71,3 +71,7 @@ def course_details(request, id=1):
     return render(
         request, "studentregistration/course_details.html", course_view_details
     )
+
+
+def module_details(request, code=''):
+    return render(request, "studentregistration/module_details.html", {"title": "Module"})
