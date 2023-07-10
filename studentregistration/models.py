@@ -3,10 +3,7 @@ from users.models import Student, Group
 
 
 class Module(models.Model):
-    CategoryChoice = (
-        ('Elective', 'Elective'),
-        ('Compulsory', 'Compulsory')
-    )
+    CategoryChoice = (("Elective", "Elective"), ("Compulsory", "Compulsory"))
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=12)
     credit = models.IntegerField()

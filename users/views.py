@@ -12,6 +12,11 @@ from .forms import (
     ProfileUpdateForm,
 )
 
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .forms import CustomPasswordChangeForm
+
 
 def login_view(request):
     if request.method == "POST":
@@ -86,7 +91,27 @@ def profile(request):
         p_form = ProfileUpdateForm(instance=request.user.student)
     context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
     return render(request, "users/profile.html", context)
+def profile(request):
+    return render(request, "users/profile.html", {"title": "Student Profile"})
 
 
 class CustomLogoutView(LogoutView):
     next_page = "studentregistration:home"
+
+
+def reset_password(request):
+    if request.method == "POST":
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(
+                request, user
+            )  # Important, to update the session with the new password
+            messages.success(request, "Your password was successfully updated!")
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Please correct the error below.")
+            return render(request, "users/reset_password.html", {"form": form})
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, "users/reset_password.html", {"form": form})
