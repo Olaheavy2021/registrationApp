@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import ContactForm
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
-from .models import Group
+from .models import Group, Module
 
 
 # Create your views here
@@ -73,5 +73,7 @@ def course_details(request, id=1):
     )
 
 
-def module_details(request, code=''):
-    return render(request, "studentregistration/module_details.html", {"title": "Module"})
+def module_details(request, code):
+    module = get_object_or_404(Module, code=code)
+    context = {"title": f"Module {code}", "module":  module, "courses":module.courses.all() }
+    return render(request, "studentregistration/module_details.html", context )
