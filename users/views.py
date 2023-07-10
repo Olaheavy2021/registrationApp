@@ -1,13 +1,18 @@
+from django.contrib import messages
+from .forms import CustomPasswordChangeForm
+from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 
 from .models import Student
-from .forms import StudentRegistrationForm, CustomLoginForm
-
-from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .forms import CustomPasswordChangeForm
+from .forms import (
+    StudentRegistrationForm,
+    CustomLoginForm,
+    UserUpdateForm,
+    ProfileUpdateForm,
+)
 
 
 def login_view(request):
@@ -58,15 +63,35 @@ def dashboard(request):
     return render(request, "users/dashboard.html", {"title": "Student Dashboard"})
 
 
+@login_required
 def profile(request):
-    return render(request, "users/profile.html", {"title": "Student Profile"})
+    if request.method == "POST":
+        # Handle form submission
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.student
+        )
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile was successfully updated")
+            return redirect("profile")
+        else:
+            messages.warning(request, "Profile could not be updated!")
+    else:
+        # Display the profile form
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.student)
+    context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
+    return render(request, "users/profile.html", context)
 
 
 class CustomLogoutView(LogoutView):
     next_page = "studentregistration:home"
 
 
-def reset_password(request):
+@login_required
+def change_password(request):
     if request.method == "POST":
         form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -78,7 +103,10 @@ def reset_password(request):
             return redirect("dashboard")
         else:
             messages.error(request, "Please correct the error below.")
-            return render(request, "users/reset_password.html", {"form": form})
     else:
         form = CustomPasswordChangeForm(request.user)
-    return render(request, "users/reset_password.html", {"form": form})
+    return render(
+        request,
+        "users/change_password.html",
+        {"form": form, "title": "Change Password"},
+    )

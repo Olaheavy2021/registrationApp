@@ -3,6 +3,8 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import PasswordChangeForm
 
+from users.models import Student
+
 FORM_CLASS_NAME = "form-control border-0 bg-light rounded-end ps-1"
 
 
@@ -17,7 +19,6 @@ class StudentRegistrationForm(UserCreationForm):
             }
         ),
     )
-
     first_name = forms.CharField(
         max_length=30,
         widget=forms.TextInput(
@@ -109,6 +110,88 @@ class CustomLoginForm(forms.Form):
             }
         )
     )
+
+
+class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Satrya",
+                "class": "form-control",
+                "id": "firstName",
+            }
+        ),
+    )
+
+    last_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Satrya",
+                "class": "form-control",
+                "id": "firstName",
+            }
+        ),
+    )
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "eg. mygeekyemail@cloudgeeks.com",
+                "id": "exampleInputEmail1",
+                "class": "form-control",
+            }
+        )
+    )
+
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email"]
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ["dob", "address", "city", "country", "photo"]
+        widgets = {
+            "dob": forms.DateInput(
+                attrs={
+                    "id": "dob",
+                    "class": "form-control",
+                    "placeholder": "DD-MM-YYYY",
+                    "type": "date",
+                }
+            ),
+            "address": forms.TextInput(
+                attrs={
+                    "id": "address",
+                    "class": "form-control",
+                    "placeholder": "78, Cross Bedford St.",
+                }
+            ),
+            "city": forms.TextInput(
+                attrs={
+                    "id": "city",
+                    "class": "form-control",
+                    "placeholder": "Sheffield",
+                }
+            ),
+            "country": forms.TextInput(
+                attrs={
+                    "id": "country",
+                    "class": "form-control",
+                    "placeholder": "United Kingdom",
+                }
+            ),
+            "photo": forms.FileInput(
+                attrs={
+                    "class": "form-control d-none",
+                    "id": "photo",
+                    "onchange": "handleFileChange(this)",
+                }
+            ),
+        }
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
