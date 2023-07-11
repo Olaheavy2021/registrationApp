@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
 from .models import Group
-
+from django.http import JsonResponse
+from django.core import serializers
+from django.urls import reverse
 
 # Create your views here
 
@@ -73,5 +75,32 @@ def course_details(request, id=1):
     )
 
 
-def module_details(request, code=''):
-    return render(request, "studentregistration/module_details.html", {"title": "Module"})
+def module_details(request, code=""):
+    return render(
+        request, "studentregistration/module_details.html", {"title": "Module"}
+    )
+
+
+def search_courses(request):
+    search_query = request.GET.get("search")
+
+    # Perform the search query based on the search query parameter
+    if search_query:
+        courses = Group.objects.filter(name__icontains=search_query)
+        # Additional filtering or search logic can be applied as needed
+
+        # Serialize the course data
+        serialized_courses = []
+        for course in courses:
+            serialized_courses.append(
+                {
+                    "id": course.id,
+                    "name": course.name,
+                    # Add other relevant course attributes
+                }
+            )
+        return JsonResponse(serialized_courses, safe=False)
+
+    # If no search query parameter is provided or no results are found
+    return JsonResponse([], safe=False)
+

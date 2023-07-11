@@ -46,17 +46,50 @@
                             <h1 class="mb-3">Study With Us ....</h1>
                             <p class="mb-3">We offer a range of high-quality courses from undergraduate degrees and
                                 postgraduate courses to research degrees and adult education classes.</p>
+                            
+                             <!-- Search -->
+                             <div>
+                                <form id="course-search-form" class="bg-body rounded p-2" action="/search_courses/" method="GET">
+                                    <div class="input-group">
+                                        <input class="form-control border-0 me-1" type="search" id="course-search-input" name="search" placeholder="Search course">
+                                        <button type="submit" id="course-search-btn" class="btn btn-purple mb-0 rounded">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Add the courses container element -->
+                            <div id="courses-container" class="row g-4">
+                                <!-- Courses will be dynamically added here -->
+                            </div>
 
-                            <!-- Search -->
-                            <form class="bg-body rounded p-2">
-                                <div class="input-group">
-                                    <input class="form-control border-0 me-1" type="search"
-                                           placeholder="Search course ">
-                                    <button type="button" class="btn btn-purple mb-0 rounded">Search</button>
-                                </div>
-                            </form>
-                        </div>
+                            <script>
+                                document.getElementById('course-search-form').addEventListener('submit', function(event) {
+                                    event.preventDefault(); // Prevent default form submission
 
+                                    var searchInput = document.getElementById('course-search-input');
+                                    fetch('/search_courses/?search=' + searchInput.value)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            var coursesContainer = document.getElementById('courses-container');
+                                            coursesContainer.innerHTML = ''; // Clear the previous content
+                                            data.forEach(function(group) {
+                                                var groupElement = document.createElement('div');
+                                                groupElement.className = 'col-sm-6 col-md-4 col-xl-3 col-lg-3';
+                                                groupElement.innerHTML = `
+                                                    <div style="height: 250px;" class="card card-body bg-purple bg-opacity-10 text-center position-relative btn-transition p-4">
+                                                        <div class="icon-xl bg-body mx-auto rounded-circle mb-3">
+                                                            <img src="/static/assets/images/element/course${group.id}.svg" alt="">
+                                                        </div>
+                                                        <h5 class="mb-2">
+                                                            <a href="/course/${group.id}" class="stretched-link">${group.name}</a>
+                                                        </h5>
+                                                        <h6 class="mb-0">35 Courses</h6>
+                                                    </div>`;
+                                                coursesContainer.appendChild(groupElement);
+                                            });
+                                        });
+                                });
+                            </script>
+                                
                         <!-- Image -->
                         <div class="col-6 col-md-3 text-center order-3">
                             <img src="{% static 'assets/images/element/category-2.svg' %}" alt="">
