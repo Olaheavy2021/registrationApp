@@ -1,4 +1,6 @@
 from django.contrib import messages
+
+from .custom_decorators import login_required_message
 from .forms import CustomPasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView
@@ -59,10 +61,13 @@ def register(request):
     return render(request, "users/register.html", context)
 
 
+@login_required_message
+@login_required
 def dashboard(request):
     return render(request, "users/dashboard.html", {"title": "Student Dashboard"})
 
 
+@login_required_message
 @login_required
 def profile(request):
     if request.method == "POST":
@@ -90,6 +95,7 @@ class CustomLogoutView(LogoutView):
     next_page = "studentregistration:home"
 
 
+@login_required_message
 @login_required
 def change_password(request):
     if request.method == "POST":

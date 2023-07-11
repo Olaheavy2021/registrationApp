@@ -168,7 +168,7 @@ JAZZMIN_UI_TWEAKS = {
 
 # Redirect to the student dashboard after login
 LOGIN_REDIRECT_URL = "dashboard"
-
+LOGIN_URL = "login"
 
 # Email Settings
 # https://docs.djangoproject.com/en/4.2/topics/email/

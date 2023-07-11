@@ -119,6 +119,7 @@ class UserUpdateForm(forms.ModelForm):
             attrs={
                 "placeholder": "Satrya",
                 "class": "form-control",
+                "readonly": "readonly",
                 "id": "firstName",
             }
         ),
@@ -130,6 +131,7 @@ class UserUpdateForm(forms.ModelForm):
             attrs={
                 "placeholder": "Satrya",
                 "class": "form-control",
+                "readonly": "readonly",
                 "id": "firstName",
             }
         ),

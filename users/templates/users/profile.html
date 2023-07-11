@@ -6,10 +6,10 @@
 <!-- Main content START -->
 <div class="col-xl-9">
     <!-- Edit profile START -->
-    <div class="card bg-transparent border rounded-3">
+    <div class="card bg-transparent border border-2 border-purple rounded-3">
         <!-- Card header -->
-        <div class="card-header bg-transparent border-bottom">
-            <h3 class="card-header-title mb-0">Edit Profile</h3>
+        <div class="card-header bg-purple border-bottom border-purple border-2">
+            <h3 class="card-header-title text-white mb-0">Edit Profile</h3>
         </div>
         <!-- Card body START -->
         <div class="card-body">
@@ -30,7 +30,7 @@
                             <!-- <button type="button" class="uploadremove"><i class="bi bi-x text-white"></i></button> -->
                         </label>
                         <!-- Upload button -->
-                        <label class="btn btn-primary-soft mb-0" for="photo">Change</label>
+                        <label class="btn btn-purple-soft mb-0" for="photo">Change</label>
                         {{p_form.photo}}
                         <span style="padding: 6px;" id="fileName"> </span>
                         <!-- <input id="uploadfile-1" class="form-control d-none" type="file"> -->
@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Full name -->
-                <div class="col-12">
+                <div class="col-12 text-purple">
                     <label class="form-label">Full name</label>
                     <div class="input-group">
                         <!-- First name -->
@@ -64,7 +64,7 @@
                 </div>
 
                 <!-- DOB -->
-                <div class="col-md-6">
+                <div class="col-md-6 text-purple">
                     <label class="form-label">Date of birth</label>
                     <div class="input-group">
                         {{p_form.dob}}
@@ -73,7 +73,7 @@
                 </div>
 
                 <!-- Email id -->
-                <div class="col-md-6">
+                <div class="col-md-6 text-purple">
                     <label class="form-label">Email</label>
                     {{u_form.email}}
                     {% if u_form.email.errors %}
@@ -86,7 +86,7 @@
                 </div>
 
                  <!-- Address -->
-                 <div class="col-12">
+                 <div class="col-12 text-purple">
                     <label class="form-label">Adress</label>
                    {{p_form.address}}
                    {% if p_form.address.errors %}
@@ -99,7 +99,7 @@
                 </div>
 
                 <!-- City -->
-                <div class="col-md-6">
+                <div class="col-md-6 text-purple">
                     <label class="form-label">City</label>
                     {{p_form.city}}
                     {% if p_form.city.errors %}
@@ -112,7 +112,7 @@
                 </div>
 
                 <!-- Country -->
-                <div class="col-md-6">
+                <div class="col-md-6 text-purple">
                     <label class="form-label">Country</label>
                     {{p_form.country}}
                     {% if p_form.country.errors %}
@@ -126,7 +126,7 @@
 
                 <!-- Save button -->
                 <div class="d-sm-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary mb-0">Save changes</button>
+                    <button type="submit" class="btn btn-purple mb-0">Save changes</button>
                 </div>
             </form>
         </div>

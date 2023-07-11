@@ -75,3 +75,7 @@ def course_details(request, id=1):
 
 def module_details(request, code=''):
     return render(request, "studentregistration/module_details.html", {"title": "Module"})
+
+
+def error_404(request, exception):
+    return render(request, "studentregistration/404.html", {"title": "404 Error"})

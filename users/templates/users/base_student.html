@@ -140,7 +140,7 @@ Page Banner START -->
     <section class="pt-0">
         <div class="container-fluid px-0">
             <div class="card bg-blue h-100px h-md-200px rounded-0"
-                 style="background:url({% static 'assets/images/about/10.jpg' %}) no-repeat center center; background-size:cover;">
+                 style="background:url({% static 'assets/images/bg/04.jpg' %}) no-repeat center center; background-size:cover;">
             </div>
         </div>
         <div class="container mt-n4">
@@ -158,17 +158,17 @@ Page Banner START -->
                             <!-- Profile info -->
                             <div class="col d-sm-flex justify-content-between align-items-center">
                                 <div>
-                                    <h1 class="my-2 fs-4">{{ user.first_name }} {{ user.last_name }}</h1>
+                                    <h1 class="my-2 fs-4 text-body-emphasis">{{ user.first_name }} {{ user.last_name }}</h1>
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item me-3 mb-1 mb-sm-0">
-                                            <span class="h6">Student ID:</span>
-                                            <span class="text-body fw-light">{{ user.username }}</span>
+                                            <span class="h6 text-body-emphasis">Student ID:</span>
+                                            <span class="text-body-emphasis fw-light">{{ user.username }}</span>
                                             <br>
-                                            <span class="h6">Email:</span>
-                                            <span class="text-body fw-light">{{ user.email }}</span>
+                                            <span class="h6 text-body-emphasis">Email:</span>
+                                            <span class="text-body-emphasis fw-light">{{ user.email }}</span>
                                             <br>
-                                            <span class="h6">Course:</span>
-                                            <span class="text-body fw-light">{{ user.student.course.name }}</span>
+                                            <span class="h6 text-body-emphasis">Course:</span>
+                                            <span class="text-body-emphasis fw-light">{{ user.student.course.name }}</span>
                                         </li>
                                     </ul>
                                 </div>
