@@ -1,6 +1,4 @@
 from functools import wraps
-
-from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib import messages
 
 default_message = "You do not have permission to view this page. Please login first."
