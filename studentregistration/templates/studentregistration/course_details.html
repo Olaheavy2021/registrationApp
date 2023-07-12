@@ -48,8 +48,8 @@
                                         <!-- Title -->
                                         <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
                                             <div>
-                                                <h5 class="card-title mb-0"><a href="#"
-                                                                               class="text-purple">{{ module.name }}</a>
+                                                <h5 class="card-title mb-0">
+                                                    <a href="{% url 'studentregistration:module_details' module.code %}" class="text-purple">{{ module.name }}</a>
                                                 </h5>
                                                 <p class="small mb-2 mb-sm-0 text-purple">{{ module.code }}</p>
                                             </div>
@@ -99,8 +99,7 @@
                                         <!-- Title -->
                                         <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
                                             <div>
-                                                <h5 class="card-title mb-0"><a href="#"
-                                                                               class="text-purple">No Modules for this Course</a>
+                                                <h5 class="card-title mb-0">No Modules for this Course
                                                 </h5>
                                             </div>
                                             <span class="h6 fw-light text-purple"><i
