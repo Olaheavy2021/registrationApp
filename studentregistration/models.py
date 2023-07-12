@@ -38,6 +38,11 @@ class Module(models.Model):
     def registrations_count(self):
         return self.registrations.count()
 
+    # we filter courses on this current module by a specific student object
+    # if we get a match, then we know the student can register for the module
+    def is_related_to_student_course(self, student):
+        return self.courses.filter(student=student).exists()
+
 
 class Registration(models.Model):
     student = models.ForeignKey(
