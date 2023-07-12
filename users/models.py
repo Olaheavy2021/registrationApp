@@ -12,7 +12,10 @@ class Student(models.Model):
     course = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name} "
+        return f"{self.user.first_name} {self.user.last_name}"
+
+    def has_registered_on_module(self, module):
+        return self.registrations.filter(module=module).exists()
 
     class Meta:
         verbose_name = "Student"

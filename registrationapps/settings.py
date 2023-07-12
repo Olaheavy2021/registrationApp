@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import environ
+from pathlib import Path
+from django.urls import reverse_lazy
+
 
 # Initialise environment variables
 env = environ.Env()
@@ -168,7 +170,9 @@ JAZZMIN_UI_TWEAKS = {
 
 # Redirect to the student dashboard after login
 LOGIN_REDIRECT_URL = "dashboard"
-LOGIN_URL = "login"
+
+# Required to redirect user when they hit login_required page
+LOGIN_URL = reverse_lazy("login")
 
 # Email Settings
 # https://docs.djangoproject.com/en/4.2/topics/email/

@@ -1,129 +1,226 @@
-{% extends "studentregistration/base.html" %}
-{% block content %} {% load static %}
-    <!-- =======================
+{% extends "studentregistration/base.html" %} 
+{% block content %} 
+{% load static %}
+<!-- =======================
     Page intro START -->
-    <section class="bg-blue py-7">
-        <div class="container">
-            <div class="row justify-content-lg-between">
+<section class="bg-blue py-7">
+  <div class="container">
+    <div class="row justify-content-lg-between">
+      <div class="col-lg-8">
+        <!-- Title -->
+        <h1 class="text-white">{{module.name}}</h1>
+        <p class="text-white">{{module.description}}.</p>
 
-                <div class="col-lg-8">
-                    <!-- Title -->
-                    <h1 class="text-white"> {{module.name}}</h1>
-                    <p class="text-white">In this module, we would apply programming structures and language syntaxes
-                        such as sequence, iteration, selection and functions to design software programs
-                        C# - It doesn’t matter what language we use, though. We will use C# language for building our
-                        application.
-                        We design algorithms, and we implement the algorithms
-                        Implementation will employ programming constructs such as loops, sequences, parameters,
-                        functions and data types.</p>
+        <!-- Content -->
+        <ul class="list-inline mb-5">
+          <li class="list-inline-item h6 me-4 mb-1 mb-sm-0 text-white">
+            <span class="fw-light">
+              <i class="fas fa-book text-purple"></i>
+              Code: </span
+            >{{module.code}}
+          </li>
+          <li class="list-inline-item me-4 mb-1 mb-sm-0">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item ms-2 h6 text-white">
+                <span class="fw-light"
+                  ><i class="fas fa-star text-purple"> </i> Credit: </span
+                >{{module.credit}}
+              </li>
+              <li class="list-inline-item ms-2 h6 text-white">
+                <span class="fw-light">
+                  <i class="fas fa-graduation-cap text-purple"></i>
+                  Category: {{module.category}}
+                </span>
+              </li>
+              <li class="list-inline-item h6 mb-0 text-white">
+                Availability: 
+                {% if module.available %}
+                  <i class="fas fa-lock-open text-success-emphasis"></i> 
+                   Open
+                 {% else %}
+                  <i class="fas fa-lock text-danger"></i> 
+                  Closed 
+                {% endif %}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
 
-                    <!-- Content -->
-                    <ul class="list-inline mb-5">
-                        <li class="list-inline-item h6 me-4 mb-1 mb-sm-0 text-white"><span class="fw-light"><i
-                                class="fas fa-book text-purple"></i> Code: </span>55-700724-AF
-                        </li>
-                        <li class="list-inline-item me-4 mb-1 mb-sm-0">
-                            <ul class="list-inline mb-0">
-                                <li class="list-inline-item ms-2 h6 text-white"><span class="fw-light"><i
-                                        class="fas fa-star text-purple"> </i> Credit: </span>15
-                                </li>
-                                <li class="list-inline-item ms-2 h6 text-white"><span class="fw-light"><i
-                                        class="fas fa-graduation-cap text-purple"></i> Category: </span>Elective
-                                </li>
-                                <li class="list-inline-item h6 mb-0 text-white">Available <i
-                                        class="fas fa-lock-open text-success-emphasis"></i></li>
-                                <li class="list-inline-item h6 mb-0 text-white">Closed <i
-                                        class="fas fa-lock text-danger"></i></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+      <div class="col-lg-3">
+        <h6 class="text-white lead fw-light mb-3">
+          <i class="fas fa-user-graduate text-purple me-2"></i>
+          {{registrations_count}} {% if registrations_count == 1 %} student {% else %} students {% endif %} already enrolled
+        </h6>
+        <!-- Button -->
+        {% if module.available %}
+          
+          {% if user.is_authenticated %}
 
-                <div class="col-lg-3">
-                    <h6 class="text-white lead fw-light mb-3"><i class="fas fa-user-graduate text-purple me-2"></i>12,155
-                        already enrolled</h6>
-                    <!-- Button -->
-                    <a href="#" class="btn btn-purple mb-3 w-100">Register</a>
-                    <a href="#" class="btn btn-danger mb-3 w-100">Unregister</a>
-                </div>
+            {% if has_registration %}
+              <a href="#" class="btn btn-danger mb-3 w-100">Unregister</a>
+            {% else %}
+              <a href="#" class="btn btn-purple mb-3 w-100">Register</a>
+            {% endif %}
 
-            </div>
-        </div>
-    </section>
-    <!-- =======================
+          {% else %}
+            <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-primary mb-3 w-100">
+              Login to get started
+            </a>
+          {% endif %}
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- =======================
     Page intro END -->
 
-    <!-- =======================
+    
+<!-- =======================
 Page content START -->
-    <section class="pt-0">
-        <div class="container">
-            <div class="row">
-                <!-- Main content START -->
-                <div class="col-12">
-                    <div class="card shadow rounded-2 p-0 mt-n5">
-                        <!-- Tabs START -->
-                        <div class="card-header border-bottom px-4 pt-3 pb-0">
-                            <ul class="nav nav-bottom-line py-0" id="course-pills-tab" role="tablist">
-                                <!-- Tab item -->
-                                <li class="nav-item me-2 me-sm-4" role="presentation">
-                                    <button class="nav-link mb-2 mb-md-0 active" id="course-pills-tab-1"
-                                            data-bs-toggle="pill" data-bs-target="#course-pills-1" type="button"
-                                            role="tab" aria-controls="course-pills-1" aria-selected="true">Student
-                                        Registrations
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Tabs END -->
+<section class="pt-0">
+  <div class="container">
+    <div class="row">
+      
+          <!-- Main content START -->
+          <div class="col-12">
+            <div class="card shadow rounded-2 p-0 mt-n5">
+              <!-- Tabs START -->
+              <div class="card-header border-bottom px-4 pt-3 pb-0">
+                <ul
+                  class="nav nav-bottom-line py-0"
+                  id="course-pills-tab"
+                  role="tablist"
+                >
+                  <!-- Tab item -->
+                  <li class="nav-item me-2 me-sm-4" role="presentation">
+                    <button
+                      class="nav-link mb-2 mb-md-0 active"
+                      id="course-pills-tab-1"
+                      data-bs-toggle="pill"
+                      data-bs-target="#course-pills-1"
+                      type="button"
+                      role="tab"
+                      aria-controls="course-pills-1"
+                      aria-selected="true"
+                    >
+                      Student Registrations
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <!-- Tabs END -->
+             
+              <!-- Tab contents START -->
+              <div class="card-body p-sm-4">
+                <div class="tab-content" id="course-pills-tabContent">
+                  {% if user.is_authenticated %}
 
-                        <!-- Tab contents START -->
-                        <div class="card-body p-sm-4">
-                            <div class="tab-content" id="course-pills-tabContent">
-                                <div class="row">
-                                    <!-- Card item START -->
-                                    <div class="col-md-6 col-xxl-4">
-                                        <div class="card bg-transparent border border-2 border-purple h-100">
-                                            <!-- Card header -->
-                                            <div class="card-header bg-transparent border-bottom d-flex justify-content-between">
-                                                <div class="d-sm-flex align-items-center">
-                                                    <!-- Avatar -->
-                                                    <div class="avatar avatar-md flex-shrink-0">
-                                                        <img class="avatar-img rounded-circle"
-                                                             src="assets/images/avatar/01.jpg" alt="avatar">
-                                                    </div>
-                                                    <!-- Info -->
-                                                    <div class="ms-0 ms-sm-2 mt-2 mt-sm-0">
-                                                        <h5 class="mb-0"><a href="#">Carolyn Ortiz</a></h5>
-                                                        <span class="text-body small"><i
-                                                                class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>Mumbai</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    {% if module.available %}
 
-                                            <!-- Card footer -->
-                                            <div class="card-footer bg-transparent border-top border-purple">
-                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                    <!-- Rating star -->
-                                                    <h6 class="mb-2 mb-sm-0">
-                                                        <i class="bi bi-calendar fa-fw text-purple me-2"></i><span
-                                                            class="text-body">Registered on:</span> 29 Aug 2021
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
+                      {% if registrations_count %}
+
+                        {%  if has_registration %}
+                          <div class="row">
+                            {% for registration in registrations %}
+                            <!-- Card item START -->
+                            <div class="col-md-6 col-xxl-4">
+                              <div
+                                class="
+                                  card
+                                  bg-transparent
+                                  border border-2 border-purple
+                                  h-100
+                                "
+                              >
+                                <!-- Card header -->
+                                <div
+                                  class="
+                                    card-header
+                                    bg-transparent
+                                    border-bottom
+                                    d-flex
+                                    justify-content-between
+                                  "
+                                >
+                                  <div class="d-sm-flex align-items-center">
+                                    <!-- Avatar -->
+                                    <div class="avatar avatar-md flex-shrink-0">
+                                      <img
+                                        class="avatar-img rounded-circle"
+                                        src="{{ registration.student.photo.url }}"
+                                        alt="avatar"
+                                      />
                                     </div>
-                                    <!-- Card item END -->
+                                    <!-- Info -->
+                                    <div class="ms-0 ms-sm-2 mt-2 mt-sm-0">
+                                      <h5 class="mb-0"><a href="#">{{registration.student.user.first_name}} {{registration.student.user.last_name}}</a></h5>
+                                      <span class="text-body small"
+                                        ><i
+                                          class="fas fa-fw fa-map-marker-alt me-1 mt-1"
+                                        ></i
+                                        >{{registration.student.city}}, {{registration.student.country}}</span
+                                      >
+                                    </div>
+                                  </div>
                                 </div>
 
+                                <!-- Card footer -->
+                                <div
+                                  class="
+                                    card-footer
+                                    bg-transparent
+                                    border-top border-purple
+                                  "
+                                >
+                                  <div
+                                    class="
+                                      d-sm-flex
+                                      justify-content-between
+                                      align-items-center
+                                    "
+                                  >
+                                    <!-- Rating star -->
+                                    <h6 class="mb-2 mb-sm-0">
+                                      <i class="bi bi-calendar fa-fw text-purple me-2"></i
+                                      ><span class="text-body">Registered on:</span> {{registration.date}}
+                                    </h6>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                        </div>
-                        <!-- Tab contents END -->
-                    </div>
+                            <!-- Card item END -->
+                            {% endfor %}
+
+                          </div>
+                        {% else %}
+                          <p>Register Module to see other registered student</p>
+                        {% endif %}
+
+                      {% else %}
+                        <p>Yay! You're about to be the first on the module. 🎉🎊</p>
+                      {% endif %}
+
+                    {% else %}
+                      <p>Module registration is closed.</p>
+                    {% endif %}
+                  {% else %}
+
+                    <p>Login to see other registered student</p>
+                  {% endif %}
                 </div>
-                <!-- Main content END -->
-            </div><!-- Row END -->
-        </div>
-    </section>
-    <!-- =======================
+              </div>
+              <!-- Tab contents END -->
+            </div>
+          </div>
+       
+      <!-- Main content END -->
+    </div>
+    <!-- Row END -->
+  </div>
+</section>
+<!-- =======================
     Page content END -->
 {% endblock %}
