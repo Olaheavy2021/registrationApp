@@ -137,3 +137,19 @@ def change_password(request):
         "users/change_password.html",
         {"form": form, "title": "Change Password"},
     )
+
+
+@login_required_message
+@login_required
+def student_registrations(request):
+    registrations = Registration.objects.filter(student=request.user.student)
+
+    # paginate the registrations
+    paginated_registrations = Paginator(registrations, 1)
+    page_list = request.GET.get("page")
+    paginated_registrations = paginated_registrations.get_page(page_list)
+    context = {
+        "title": "My Registrations",
+        "paginated_registrations": paginated_registrations,
+    }
+    return render(request, "users/registrations.html", context)

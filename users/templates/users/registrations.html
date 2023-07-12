@@ -1,0 +1,67 @@
+{% extends "users/base_student.html" %}
+
+{% block student_content %}
+    {% load static %}
+    <!-- Main content START -->
+    <div class="col-xl-9">
+        <div class="card bg-transparent border border-2 border-purple rounded-3">
+            <!-- Card header START -->
+            <div class="card-header bg-purple border-bottom">
+                <h3 class="mb-0 text-white">Module Registrations</h3>
+            </div>
+            <!-- Card header END -->
+
+            <!-- Card body START -->
+            <div class="card-body">
+                {% for registration in paginated_registrations %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <h3><a class="article-title" href="{% url 'studentregistration:module_details' registration.module.code %}" >{{ registration.module.name}}
+                            ({{ registration.module.code }})</a></h3>
+                        <p class="article-content">Registration date: {{ registration.registration_date }}</p>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="#">Unregister</a>
+                    </div>
+                </article>
+                <hr class="border-purple">
+                {% endfor %}
+                   <!-- Pagination START -->
+                <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+                    <!-- Content -->
+                    <p class="mb-0 text-center text-purple text-sm-start"><b>Page {{ paginated_registrations.number }}
+                        of {{ paginated_registrations.paginator.num_pages }}</b></p>
+                    <!-- Pagination -->
+                    <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+                        <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                            {% if paginated_registrations.has_previous %}
+                                <li class="page-item mb-0"><a class="page-link"
+                                                              href="{% url 'registrations' %}?page={{ paginated_registrations.previous_page_number }}"
+                                                              tabindex="-1"><i
+                                        class="fas fa-angle-left"></i></a></li>
+                            {% endif %}
+                            {% for num_page in paginated_registrations.paginator.page_range %}
+                                {% if paginated_registrations.number == num_page %}
+                                    <li class="page-item mb-0 active"><a class="page-link"
+                                                                         href="{% url 'registrations' %}?page={{ num_page }}">{{ num_page }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item mb-0"><a class="page-link"
+                                                                  href="{% url 'registrations' %}?page={{ num_page }}">{{ num_page }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if paginated_registrations.has_next %}
+                                <li class="page-item mb-0"><a class="page-link"
+                                                              href="{% url 'registrations' %}?page={{ paginated_registrations.next_page_number }}"><i
+                                        class="fas fa-angle-right"></i></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Pagination END -->
+            </div>
+            <!-- Card body END -->
+        </div>
+
+    </div>
+{% endblock %}

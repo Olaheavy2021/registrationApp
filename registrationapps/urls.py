@@ -35,6 +35,7 @@ urlpatterns = [
     path(
         "student/change-password/", users.views.change_password, name="change_password"
     ),
+    path("student/registrations/", users.views.student_registrations, name="registrations"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
