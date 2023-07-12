@@ -60,3 +60,6 @@ class Registration(models.Model):
         verbose_name = "Registration"
         verbose_name_plural = "Registrations"
         unique_together = ["student", "module"]
+        constraints = [
+            models.UniqueConstraint(fields=["student", "module"], name="unique_registration")
+        ]

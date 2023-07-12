@@ -225,7 +225,7 @@
                             </div>
                             <!-- Title -->
                             <h5 class="mb-1"><a href="{% url 'studentregistration:course_details' course.id %}" class="stretched-link">{{ course.name }}</a></h5>
-                            <span class="mb-0">5 Modules</span>
+                            <span class="mb-0">{{ course.modules.count }} Modules</span>
                         </div>
                     </div>
                 {% endfor %}

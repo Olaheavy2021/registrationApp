@@ -26,7 +26,7 @@
                     <span class="display-6 lh-1 text-success mb-0"><i class="fas fa-medal fa-fw"></i></span>
                     <div class="ms-4">
                         <div class="d-flex">
-                            <h5 class="mb-0 fw-bold">7</h5>
+                            <h5 class="mb-0 fw-bold">{{ modules.count }}</h5>
                         </div>
                         <p class="mb-0 h6 fw-light">Modules</p>
                     </div>
@@ -38,7 +38,7 @@
                     <span class="display-6 lh-1 text-purple mb-0"><i class="fas fa-clipboard-check fa-fw"></i></span>
                     <div class="ms-4">
                         <div class="d-flex">
-                            <h5 class="mb-0 fw-bold">4</h5>
+                            <h5 class="mb-0 fw-bold">{{ registrations.count }}</h5>
                         </div>
                         <p class="mb-0 h6 fw-light">Registrations</p>
                     </div>
@@ -57,36 +57,6 @@
             <!-- Card body START -->
             <div class="card-body">
 
-                <!-- Search and select START -->
-                <div class="row g-3 align-items-center justify-content-between mb-4">
-                    <!-- Content -->
-                    <div class="col-md-8">
-                        <form class="rounded position-relative">
-                            <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search"
-                                   aria-label="Search">
-                            <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset"
-                                    type="submit">
-                                <i class="fas fa-search fs-6 "></i>
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Select option -->
-                    <div class="col-md-3">
-                        <!-- Short by filter -->
-                        <form>
-                            <select class="form-select js-choice border-0 z-index-9 bg-transparent"
-                                    aria-label=".form-select-sm">
-                                <option value="">Sort by</option>
-                                <option>Free</option>
-                                <option>Newest</option>
-                                <option>Most popular</option>
-                                <option>Most Viewed</option>
-                            </select>
-                        </form>
-                    </div>
-                </div>
-                <!-- Search and select END -->
 
                 <!-- Course list table START -->
                 <div class="table-responsive border-0">
@@ -96,94 +66,89 @@
                         <tr>
                             <th scope="col" class="border-0 rounded-start">Module Title</th>
                             <th scope="col" class="border-0">Credits</th>
+                            <th scope="col" class="border-0">Category</th>
                             <th scope="col" class="border-0 rounded-end">Action</th>
                         </tr>
                         </thead>
 
                         <!-- Table body START -->
                         <tbody>
-                        <!-- Table item -->
-                        <tr>
-                            <!-- Table data -->
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <!-- Image -->
-                                    <div class="w-100px">
-                                        <img src="{% static 'assets/images/courses/4by3/module1.jpg' %}" class="rounded"
-                                             alt="">
-                                    </div>
-                                    <div class="mb-0 ms-2">
-                                        <!-- Title -->
-                                        <h6><a href="#">Building Scalable APIs with GraphQL</a></h6>
-                                    </div>
-                                </div>
-                            </td>
+                        {% for module in paginated_modules %}
+                            <!-- Table item -->
+                            <tr>
+                                <!-- Table data -->
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <!-- Image -->
+                                        <div class="w-100px">
+                                            <img src="
 
-                            <!-- Table data -->
-                            <td>45</td>
 
-                            <!-- Table data -->
-                            <td>
-                                <button class="btn btn-sm btn-success me-1 mb-1 mb-x;-0"><i
-                                        class="bi bi-check me-1"></i>Register
-                                </button>
-                                <button class="btn btn-sm btn-danger me-1 mb-1 mb-x;-0"><i
-                                        class="bi bi-x-octagon-fill me-1"></i>UnRegister
-                                </button>
-                                <a href="#" class="btn btn-sm btn-info me-1"><i class="bi bi-eye-fill me-1"></i>View</a>
-                            </td>
-                        </tr>
-                        <!-- Table item -->
-                        <tr>
-                            <!-- Table data -->
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <!-- Image -->
-                                    <div class="w-100px">
-                                        <img src="{% static 'assets/images/courses/4by3/module2.jpg' %}" class="rounded"
-                                             alt="">
+
+
+
+                                                    {% static 'assets/images/courses/4by3/module' %}{{ forloop.counter }}.jpg"
+                                                 class="rounded"
+                                                 alt="">
+                                        </div>
+                                        <div class="mb-0 ms-2">
+                                            <!-- Title -->
+                                            <h6>
+                                                <a href="{% url 'studentregistration:module_details' module.code %}">{{ module.name }}</a>
+                                            </h6>
+                                        </div>
                                     </div>
-                                    <div class="mb-0 ms-2">
-                                        <!-- Title -->
-                                        <h6><a href="#">The Complete Web Development in python</a></h6>
-                                    </div>
-                                </div>
-                            </td>
+                                </td>
 
-                            <!-- Table data -->
-                            <td>15</td>
+                                <!-- Table data -->
+                                <td>{{ module.credit }}</td>
 
-                            <!-- Table data -->
-                            <td>
-                                <button class="btn btn-sm btn-success me-1 mb-1 mb-x;-0"><i
-                                        class="bi bi-check me-1"></i>Register
-                                </button>
-                                <button class="btn btn-sm btn-danger me-1 mb-1 mb-x;-0"><i
-                                        class="bi bi-x-octagon-fill me-1"></i>UnRegister
-                                </button>
-                                <a href="#" class="btn btn-sm btn-info me-1"><i class="bi bi-eye-fill me-1"></i>View</a>
-                            </td>
-                        </tr>
+                                <!-- Table data -->
+                                <td>{{ module.category }}</td>
+
+                                <!-- Table data -->
+                                <td>
+                                    <a href="{% url 'studentregistration:module_details' module.code %}"
+                                       class="btn btn-sm btn-info me-1"><i class="bi bi-eye-fill me-1"></i>View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                         <!-- Table body END -->
                     </table>
                 </div>
                 <!-- Course list table END -->
-
                 <!-- Pagination START -->
                 <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
                     <!-- Content -->
-                    <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+                    <p class="mb-0 text-center text-purple text-sm-start"><b>Page {{ paginated_modules.number }}
+                        of {{ paginated_modules.paginator.num_pages }}</b></p>
                     <!-- Pagination -->
                     <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
                         <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-                            <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i
-                                    class="fas fa-angle-left"></i></a></li>
-                            <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
-                            </li>
+                            {% if paginated_modules.has_previous %}
+                                <li class="page-item mb-0"><a class="page-link"
+                                                              href="{% url 'dashboard' %}?page={{ paginated_modules.previous_page_number }}"
+                                                              tabindex="-1"><i
+                                        class="fas fa-angle-left"></i></a></li>
+                            {% endif %}
+                            {% for num_page in paginated_modules.paginator.page_range %}
+                                {% if paginated_modules.number == num_page %}
+                                    <li class="page-item mb-0 active"><a class="page-link"
+                                                                         href="{% url 'dashboard' %}?page={{ num_page }}">{{ num_page }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item mb-0"><a class="page-link"
+                                                                  href="{% url 'dashboard' %}?page={{ num_page }}">{{ num_page }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if paginated_modules.has_next %}
+                                <li class="page-item mb-0"><a class="page-link"
+                                                              href="{% url 'dashboard' %}?page={{ paginated_modules.next_page_number }}"><i
+                                        class="fas fa-angle-right"></i></a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>

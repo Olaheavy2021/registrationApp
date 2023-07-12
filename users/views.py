@@ -7,8 +7,10 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from .models import Student
+from studentregistration.models import Registration
 from .forms import (
     StudentRegistrationForm,
     CustomLoginForm,
@@ -66,7 +68,24 @@ def register(request):
 @login_required_message
 @login_required
 def dashboard(request):
-    return render(request, "users/dashboard.html", {"title": "Student Dashboard"})
+    # Get the modules for the courses
+    course = request.user.student.course
+    modules = course.modules.all()
+
+    # Get the registrations for the student
+    registrations = Registration.objects.filter(student=request.user.student)
+
+    # paginate the modules
+    paginated_modules = Paginator(modules, 2)
+    page_list = request.GET.get("page")
+    paginated_modules = paginated_modules.get_page(page_list)
+    context = {
+        "title": "Student Dashboard",
+        "modules": modules,
+        "registrations": registrations,
+        "paginated_modules": paginated_modules,
+    }
+    return render(request, "users/dashboard.html", context)
 
 
 @login_required_message
@@ -118,3 +137,19 @@ def change_password(request):
         "users/change_password.html",
         {"form": form, "title": "Change Password"},
     )
+
+
+@login_required_message
+@login_required
+def student_registrations(request):
+    registrations = Registration.objects.filter(student=request.user.student)
+
+    # paginate the registrations
+    paginated_registrations = Paginator(registrations, 1)
+    page_list = request.GET.get("page")
+    paginated_registrations = paginated_registrations.get_page(page_list)
+    context = {
+        "title": "My Registrations",
+        "paginated_registrations": paginated_registrations,
+    }
+    return render(request, "users/registrations.html", context)

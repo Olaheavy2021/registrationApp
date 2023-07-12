@@ -48,9 +48,9 @@
                                         <!-- Title -->
                                         <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
                                             <div>
-                                                <h5 class="card-title mb-0">
-                                                    <a href="{% url 'studentregistration:module_details' module.code %}" class="text-purple">{{ module.name }}</a>
-                                                </h5>
+                                                <h6 class="card-title mb-0">
+                                                    <a href="{% url 'studentregistration:module_details' module.code %}" class="text-purple"><b>{{ module.name }}</b></a>
+                                                </h6>
                                                 <p class="small mb-2 mb-sm-0 text-purple">{{ module.code }}</p>
                                             </div>
                                             <span class="h6 fw-light text-purple">{{ module.credit }}<i
