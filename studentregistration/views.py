@@ -84,6 +84,9 @@ def module_details(request, code):
         "has_registration": request.user.student.has_registered_on_module(module)
         if (request.user.is_authenticated and module)
         else False,
+        "can_register": module.is_related_to_student_course(
+            student=request.user.student
+        ),
     }
 
     return render(request, "studentregistration/module_details.html", context)
