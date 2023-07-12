@@ -70,7 +70,7 @@ def register(request):
 def dashboard(request):
     # Get the modules for the courses
     course = request.user.student.course
-    modules = course.modules.all()
+    modules = course.modules.all().order_by('name')
 
     # Get the registrations for the student
     registrations = Registration.objects.filter(student=request.user.student)
@@ -142,10 +142,10 @@ def change_password(request):
 @login_required_message
 @login_required
 def student_registrations(request):
-    registrations = Registration.objects.filter(student=request.user.student)
+    registrations = Registration.objects.filter(student=request.user.student).order_by('registration_date')
 
     # paginate the registrations
-    paginated_registrations = Paginator(registrations, 1)
+    paginated_registrations = Paginator(registrations, 3)
     page_list = request.GET.get("page")
     paginated_registrations = paginated_registrations.get_page(page_list)
     context = {
