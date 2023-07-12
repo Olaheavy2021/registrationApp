@@ -75,5 +75,13 @@ def course_details(request, id=1):
 
 def module_details(request, code):
     module = get_object_or_404(Module, code=code)
-    context = {"title": f"Module {code}", "module":  module, "courses":module.courses.all() }
-    return render(request, "studentregistration/module_details.html", context )
+    context = {
+        "title": f"Module {code}",
+        "module": module,
+        "courses": module.courses.all(),
+    }
+    return render(request, "studentregistration/module_details.html", context)
+
+
+def error_404(request, exception):
+    return render(request, "studentregistration/404.html", {"title": "404 Error"})

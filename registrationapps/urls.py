@@ -23,14 +23,15 @@ from django.conf.urls.static import static
 import users.views
 from users import views as user_views
 
-
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("", include("studentregistration.urls")),
-    path("login/", user_views.login_view, name="login"),
-    path("register", user_views.register, name="register"),
-    path("logout/", user_views.CustomLogoutView.as_view(), name="logout"),
-    path("student/dashboard/", users.views.dashboard, name="dashboard"),
-    path("student/profile/", users.views.profile, name="profile"),
-    path("student/change-password/", users.views.change_password, name="change_password"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path("admin/", admin.site.urls),
+                  path("", include("studentregistration.urls")),
+                  path("login/", user_views.login_view, name="login"),
+                  path("register", user_views.register, name="register"),
+                  path("logout/", user_views.CustomLogoutView.as_view(), name="logout"),
+                  path("student/dashboard/", users.views.dashboard, name="dashboard"),
+                  path("student/profile/", users.views.profile, name="profile"),
+                  path("student/change-password/", users.views.change_password, name="change_password"),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'studentregistration.views.error_404'
