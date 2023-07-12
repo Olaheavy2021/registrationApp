@@ -27,7 +27,9 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "Successfully logged in")
-                return redirect("dashboard")
+                # Retrieve the 'next' parameter or dashboard
+                redirect_to = request.GET.get("next", "dashboard")
+                return redirect(redirect_to)
             else:
                 messages.warning(request, "Unable to  login!")
     else:
