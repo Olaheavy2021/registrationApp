@@ -19,10 +19,33 @@ class Module(models.Model):
         verbose_name = "Module"
         verbose_name_plural = "Modules"
 
+    @property
+    def attached_courses(self):
+        return self.courses.all()
+
+    @property
+    def registered_students(self):
+        return [registration.student for registration in self.registrations.all()]
+
+    @property
+    def student_registration_details(self):
+        return [
+            {"student": registration.student, "date": registration.registration_date}
+            for registration in self.registrations.all()
+        ]
+
+    @property
+    def registrations_count(self):
+        return self.registrations.count()
+
 
 class Registration(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name="registrations"
+    )
+    module = models.ForeignKey(
+        Module, on_delete=models.CASCADE, related_name="registrations"
+    )
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -31,3 +54,4 @@ class Registration(models.Model):
     class Meta:
         verbose_name = "Registration"
         verbose_name_plural = "Registrations"
+        unique_together = ["student", "module"]
