@@ -31,3 +31,6 @@ class Registration(models.Model):
     class Meta:
         verbose_name = "Registration"
         verbose_name_plural = "Registrations"
+        constraints = [
+            models.UniqueConstraint(fields=["student", "module"], name="unique_registration")
+        ]
