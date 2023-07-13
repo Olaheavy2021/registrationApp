@@ -3,8 +3,10 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.shortcuts import render, get_object_or_404
 
+
 from .forms import ContactForm
 from .models import Group, Module
+from studentregistration.utils import get_student_from_request
 
 
 # Create your views here
@@ -76,18 +78,24 @@ def course_details(request, id=1):
 
 def module_details(request, code):
     module = get_object_or_404(Module, code=code)
+
+    # student will return None if it doesnt't exist
+    student = get_student_from_request(request)
+
     context = {
         "module": module,
         "title": module.name,
         "registrations_count": module.registrations_count,
         "registrations": module.student_registration_details,
-        "has_registration": request.user.student.has_registered_on_module(module)
-        if (request.user.is_authenticated and module)
-        else False,
-        "can_register": module.is_related_to_student_course(
-            student=request.user.student
-        ),
     }
+
+    context["can_register"] = student is not None and student.can_register_on_module(
+        module
+    )
+
+    context[
+        "has_registration"
+    ] = student is not None and student.has_registered_on_module(module)
 
     return render(request, "studentregistration/module_details.html", context)
 
