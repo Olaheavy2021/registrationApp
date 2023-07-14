@@ -48,11 +48,11 @@
                                 postgraduate courses to research degrees and adult education classes.</p>
 
                             <!-- Search -->
-                            <form class="bg-body rounded p-2">
+                            <form class="bg-body rounded p-2" method="get">
                                 <div class="input-group">
-                                    <input class="form-control border-0 me-1" type="search"
+                                    <input name="query" class="form-control border-0 me-1" type="search"
                                            placeholder="Search course ">
-                                    <button type="button" class="btn btn-purple mb-0 rounded">Search</button>
+                                    <button type="submit" class="btn btn-purple mb-0 rounded">Search</button>
                                 </div>
                             </form>
                         </div>
@@ -99,6 +99,23 @@
                             <h6 class="mb-0">{{ course.modules.count }} Modules</h6>
                         </div>
                     </div>
+                    {% empty %}
+                    <center>
+                        <div class="col-sm-6 col-md-4 col-xl-3 col-lg-3">
+                            <div style="height: 275px; width: 300px;"
+                                 class="card card-body bg-purple bg-opacity-10 text-center position-relative btn-transition p-4">
+                                <!-- Image -->
+                                <div class="icon-xl bg-body mx-auto rounded-circle mb-3">
+                                    <img src="{% static 'assets/images/courses/4by3/error-404.jpg' %}" alt="">
+                                </div>
+                                <!-- Title -->
+                                <h5 class="mb-2"><a href="{% url 'studentregistration:course_list'%}"
+                                                    class="stretched-link">Sorry, no matching courses found! </a></h5>
+                              
+                            </div>
+                        </div>
+                    </center>
+                   
                 {% endfor %}
             </div>
         </div>
