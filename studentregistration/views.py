@@ -57,7 +57,13 @@ def contact(request):
 
 
 def course_list(request):
-    all_courses = {"courses": Group.objects.all(), "title": "Our Courses"}
+    if "query" in request.GET:
+        query = request.GET["query"]
+        courses = Group.objects.all()
+        courses = courses.filter(name__icontains=query)
+    else:
+        courses = Group.objects.all()
+    all_courses = {"courses": courses, "title": "Our Courses"}
     return render(request, "studentregistration/course_list.html", all_courses)
 
 
