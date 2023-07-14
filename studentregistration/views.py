@@ -1,13 +1,16 @@
+from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+
 
 from .forms import ContactForm
-from .models import Group, Module
-
-
-# Create your views here
+from .models import Group, Module, Registration
+from users.custom_decorators import login_required_message
+from studentregistration.utils import get_student_from_request
 
 
 def home(request):
@@ -82,20 +85,86 @@ def course_details(request, id=1):
 
 def module_details(request, code):
     module = get_object_or_404(Module, code=code)
+
+    # student will return None if it doesnt't exist
+    student = get_student_from_request(request)
+
     context = {
         "module": module,
         "title": module.name,
         "registrations_count": module.registrations_count,
         "registrations": module.student_registration_details,
-        "has_registration": request.user.student.has_registered_on_module(module)
-        if (request.user.is_authenticated and module)
-        else False,
-        "can_register": module.is_related_to_student_course(
-            student=request.user.student
-        ),
     }
 
+    context["can_register"] = student is not None and student.can_register_on_module(
+        module
+    )
+
+    context[
+        "has_registration"
+    ] = student is not None and student.has_registered_on_module(module)
+
     return render(request, "studentregistration/module_details.html", context)
+
+
+@login_required_message
+@login_required
+def student_registrations(request):
+    registrations = Registration.objects.filter(student=request.user.student).order_by(
+        "registration_date"
+    )
+
+    # paginate the registrations
+    paginated_registrations = Paginator(registrations, 2)
+    page_list = request.GET.get("page")
+    paginated_registrations = paginated_registrations.get_page(page_list)
+    context = {
+        "title": "My Registrations",
+        "paginated_registrations": paginated_registrations,
+    }
+    return render(request, "studentregistration/registrations.html", context)
+
+
+@login_required_message
+@login_required
+def register(request, code):
+    module = get_object_or_404(Module, code=code)
+
+    # incase user tries to re-register buy copying the register url
+    registration, created = Registration.objects.get_or_create(
+        module=module, student=request.user.student
+    )
+    if created:
+        messages.success(request, f"Successfully registered to {module.name}")
+    else:
+        messages.success(request, f"You've already registered to {module.name}")
+
+    # redirect to previous page that sent user here
+    # or build the module page url and redirect user there
+    module_page = reverse("studentregistration:module_details", args=[module.code])
+    redirect_to = request.META.get("HTTP_REFERER", module_page)
+    return redirect(redirect_to)
+
+
+@login_required_message
+@login_required
+def unregister(request, code):
+    registration = get_object_or_404(
+        Registration, module__code=code, student=request.user.student
+    )
+    module = registration.module
+    if request.method == "POST":
+        registration.delete()
+        messages.success(request, f"Successfully unregistered from {module.name}")
+        return redirect(
+            reverse("studentregistration:module_details", args=[module.code])
+        )
+        # module_page = reverse("studentregistration:module_details", args=[module.code])
+        # redirect_to = request.META.get("HTTP_REFERER", module_page)
+        # return redirect(redirect_to)
+
+    context = {"title": "Unregister", "module": module, "registration": registration}
+    return render(request, "studentregistration/unregister.html", context)
 
 
 def error_404(request, exception):

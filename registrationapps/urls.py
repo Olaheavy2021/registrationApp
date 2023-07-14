@@ -25,29 +25,43 @@ import users.views
 from users import views as user_views
 
 urlpatterns = [
-                  path("admin/", admin.site.urls),
-                  path("", include("studentregistration.urls")),
-                  path("login/", user_views.login_view, name="login"),
-                  path("register", user_views.register, name="register"),
-                  path("student/profile/", users.views.profile, name="profile"),
-                  path("student/dashboard/", users.views.dashboard, name="dashboard"),
-                  path("logout/", user_views.CustomLogoutView.as_view(), name="logout"),
-                  path(
-                      "student/change-password/", users.views.change_password, name="change_password"
-                  ),
-                  path("student/registrations/", users.views.student_registrations, name="registrations"),
-                  path("password_reset/",
-                       auth_views.PasswordResetView.as_view(template_name="users/password_reset.html"),
-                       name="password_reset"),
-                  path("password_reset/done/",
-                       auth_views.PasswordResetDoneView.as_view(template_name="users/password_reset_done.html"),
-                       name="password_reset_done"),
-                  path("password_reset_confirm/<uidb64>/<token>/",
-                       auth_views.PasswordResetConfirmView.as_view(template_name="users/password_reset_confirm.html"),
-                       name="password_reset_confirm"),
-                  path("password_reset_complete/",
-                       auth_views.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
-                       name="password_reset_complete"),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("", include("studentregistration.urls")),
+    path("login/", user_views.login_view, name="login"),
+    path("register", user_views.register, name="register"),
+    path("student/profile/", users.views.profile, name="profile"),
+    path("student/dashboard/", users.views.dashboard, name="dashboard"),
+    path("logout/", user_views.CustomLogoutView.as_view(), name="logout"),
+    path(
+        "student/change-password/", users.views.change_password, name="change_password"
+    ),
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(template_name="users/password_reset.html"),
+        name="password_reset",
+    ),
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="users/password_reset_done.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "password_reset_confirm/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="users/password_reset_confirm.html"
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password_reset_complete/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="users/password_reset_complete.html"
+        ),
+        name="password_reset_complete",
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 handler404 = "studentregistration.views.error_404"
