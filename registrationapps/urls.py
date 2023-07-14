@@ -36,11 +36,6 @@ urlpatterns = [
         "student/change-password/", users.views.change_password, name="change_password"
     ),
     path(
-        "student/registrations/",
-        users.views.student_registrations,
-        name="registrations",
-    ),
-    path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(template_name="users/password_reset.html"),
         name="password_reset",
