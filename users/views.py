@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
-from .models import Student
+from .models import Student, User
 from .forms import CustomPasswordChangeForm
 from studentregistration.models import Registration
 from .forms import (
@@ -43,18 +43,23 @@ def register(request):
     if request.method == "POST":
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            student = Student(
-                user=user,
-                course=form.cleaned_data["course"],
-            )
-            user.save()
-            student.save()
-            messages.success(
-                request, "Your account has been created! Now you can login!"
-            )
-            # Redirect to login page on success
-            return redirect("login")
+            email = form.cleaned_data["email"]
+            if User.objects.filter(email=email).exists():
+                messages.warning(request, "Email address already exists!")
+            else:
+                user = form.save(commit=False)
+                student = Student(
+                    user=user,
+                    course=form.cleaned_data["course"],
+                )
+                user.save()
+                student.save()
+                messages.success(
+                    request, "Your account has been created! Now you can login!"
+                )
+                # Redirect to login page on success
+                return redirect("login")
+
         else:
             messages.warning(request, "Unable to create account!")
     else:
