@@ -50,7 +50,7 @@
         <div class="card bg-transparent border border-2 border-purple rounded-3">
             <!-- Card header START -->
             <div class="card-header bg-purple border-bottom">
-                <h3 class="mb-0 text-white">MSc Computing - Modules</h3>
+                <h3 class="mb-0 text-white">{{user.student.course.name}} - Modules</h3>
             </div>
             <!-- Card header END -->
 
@@ -110,6 +110,12 @@
                                 <td>
                                     <a href="{% url 'studentregistration:module_details' module.code %}"
                                        class="btn btn-sm btn-info me-1"><i class="bi bi-eye-fill me-1"></i>View</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="text-purple">
+                                    No module has been added yet. Please contact admin..
                                 </td>
                             </tr>
                         {% endfor %}
