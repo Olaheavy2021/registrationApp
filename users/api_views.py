@@ -1,9 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
-from django.contrib.auth.models import Group
 from rest_framework.response import Response
-from rest_framework import generics, permissions
-from rest_framework import permissions, viewsets, status
+from rest_framework import permissions, generics, viewsets, status
 
 from users.models import Student
 from studentregistration.models import Module, Group, Registration
