@@ -4,12 +4,12 @@ from users.models import Student, Group
 
 class Module(models.Model):
     CategoryChoice = (("Elective", "Elective"), ("Compulsory", "Compulsory"))
-    name = models.CharField(max_length=255)
-    code = models.CharField(max_length=12)
-    credit = models.IntegerField()
-    category = models.CharField(max_length=255, choices=CategoryChoice)
-    description = models.TextField()
-    available = models.BooleanField(default=True)
+    name = models.CharField(max_length=255, null=False)
+    code = models.SlugField(max_length=12, default="", null=False, unique=True)
+    credit = models.IntegerField(null=False)
+    category = models.CharField(max_length=255, choices=CategoryChoice, null=False)
+    description = models.TextField(null=False)
+    available = models.BooleanField(default=True, null=False)
     courses = models.ManyToManyField(Group, related_name="modules")
 
     def __str__(self):
