@@ -13,4 +13,6 @@ urlpatterns = [
     path("module/<str:code>", views.module_details, name="module_details"),
     path("module/<str:code>/unregister", views.unregister, name="unregister"),
     path("student/registrations/", views.student_registrations, name="registrations"),
+    path("library/books", views.book_list, name="library"),
+    path("library/book/<str:id>/", views.book_details, name="book_details"),
 ]
