@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "crispy_forms",
     "crispy_bootstrap4",
+    "rest_framework",
+    "drf_yasg",
 ]
 
 
