@@ -148,23 +148,16 @@ def register(request, code):
 
 @login_required_message
 @login_required
-def unregister(request, code):
+def unregister(request, id):
     registration = get_object_or_404(
-        Registration, module__code=code, student=request.user.student
+        Registration, module__id=id, student=request.user.student
     )
     module = registration.module
-    if request.method == "POST":
-        registration.delete()
-        messages.success(request, f"Successfully unregistered from {module.name}")
-        return redirect(
-            reverse("studentregistration:module_details", args=[module.code])
-        )
-        # module_page = reverse("studentregistration:module_details", args=[module.code])
-        # redirect_to = request.META.get("HTTP_REFERER", module_page)
-        # return redirect(redirect_to)
-
-    context = {"title": "Unregister", "module": module, "registration": registration}
-    return render(request, "studentregistration/unregister.html", context)
+    registration.delete()
+    messages.success(request, f"Successfully unregistered from {module.name}")
+    return redirect(
+        reverse("studentregistration:module_details", args=[module.code])
+    )
 
 
 def error_404(request, exception):

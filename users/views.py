@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
@@ -5,6 +7,7 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from .models import Student, User
 from .forms import CustomPasswordChangeForm
@@ -101,6 +104,11 @@ def profile(request):
         p_form = ProfileUpdateForm(
             request.POST, request.FILES, instance=request.user.student
         )
+        date = datetime.strptime(p_form.data["dob"], '%Y-%m-%d')
+        if date.date() > timezone.localtime(timezone.now()).date():
+            messages.error(request, "Date of birth cannot be in the future!")
+            context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
+            return render(request, "users/profile.html", context)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()

@@ -19,7 +19,7 @@
                         <h3><a class="article-title" href="{% url 'studentregistration:module_details' registration.module.code %}" >{{ registration.module.name}}
                             ({{ registration.module.code }})</a></h3>
                         <p class="article-content">Registration date: {{ registration.registration_date }}</p>
-                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'studentregistration:unregister' registration.module.code %}">
+                         <a class="btn btn-danger btn-sm mt-1 mb-1" onclick="unregisterModule({{ registration.module.id}})">
                             Unregister
                         </a>
                     </div>
@@ -74,6 +74,25 @@
             </div>
             <!-- Card body END -->
         </div>
-
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    function unregisterModule(moduleId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#800080',
+                confirmButtonText: 'Yes, unregister module!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/module/"+moduleId+"/unregister";
+                }
+            })
+        }
+    </script>
 {% endblock %}

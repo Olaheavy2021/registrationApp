@@ -206,3 +206,9 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     new_password2 = forms.CharField(
         required=True, widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
+
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = "Old Password"
+        self.fields['new_password1'].label = "New Password"
+        self.fields['new_password2'].label = "Confirm New Password"
