@@ -18,7 +18,7 @@ env:
   AZURE_DB_USER: ${{ secrets.AZURE_DB_USER }}
   AZURE_DB_PASSWORD: ${{ secrets.AZURE_DB_PASSWORD }}
   GOOGLE_BOOKS_API_URL: ${{ secrets.GOOGLE_BOOKS_API_URL }}
-  GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
+  GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
 jobs:
   build:
