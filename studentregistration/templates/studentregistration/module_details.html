@@ -60,7 +60,7 @@
             {% if can_register %}
 
               {% if has_registration %}
-                <a href="{% url 'studentregistration:unregister' module.code %}" class="btn btn-danger mb-3 w-100">
+                <a href="{% url 'studentregistration:unregister' module.id %}" class="btn btn-danger mb-3 w-100">
                   Unregister
                 </a>
               {% else %}

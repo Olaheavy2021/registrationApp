@@ -5,7 +5,7 @@ from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-
+import requests
 
 from .forms import ContactForm
 from .models import Group, Module, Registration
@@ -86,7 +86,7 @@ def course_details(request, id=1):
 def module_details(request, code):
     module = get_object_or_404(Module, code=code)
 
-    # student will return None if it doesnt't exist
+    # student will return None if it doesn't exist
     student = get_student_from_request(request)
 
     context = {
@@ -148,24 +148,48 @@ def register(request, code):
 
 @login_required_message
 @login_required
-def unregister(request, code):
+def unregister(request, id):
     registration = get_object_or_404(
-        Registration, module__code=code, student=request.user.student
+        Registration, module__id=id, student=request.user.student
     )
     module = registration.module
-    if request.method == "POST":
-        registration.delete()
-        messages.success(request, f"Successfully unregistered from {module.name}")
-        return redirect(
-            reverse("studentregistration:module_details", args=[module.code])
-        )
-        # module_page = reverse("studentregistration:module_details", args=[module.code])
-        # redirect_to = request.META.get("HTTP_REFERER", module_page)
-        # return redirect(redirect_to)
-
-    context = {"title": "Unregister", "module": module, "registration": registration}
-    return render(request, "studentregistration/unregister.html", context)
+    registration.delete()
+    messages.success(request, f"Successfully unregistered from {module.name}")
+    return redirect(
+        reverse("studentregistration:module_details", args=[module.code])
+    )
 
 
 def error_404(request, exception):
     return render(request, "studentregistration/404.html", {"title": "404 Error"})
+
+
+@login_required_message
+@login_required
+def book_list(request):
+    if "query" in request.GET:
+        query = request.GET["query"]
+        print("Search Query " + query)
+        url = '{}?q={}&maxResults=10&key={}'
+        # Request the API data and convert the JSON to Python data types
+        book_data = requests.get(url.format(settings.GOOGLE_BOOKS_API_URL, query,
+                                            settings.GOOGLE_API_KEY)).json()
+        return render(request, "studentregistration/book_list.html", {"title": "Library", "books": book_data['items']})
+    else:
+        return render(request, "studentregistration/book_list.html", {"title": "Library"})
+
+
+@login_required_message
+@login_required
+def book_details(request, id):
+    url = '{}/{}?key={}'
+    # Request the API data and confirm the response
+    book_data = requests.get(url.format(settings.GOOGLE_BOOKS_API_URL, id, settings.GOOGLE_API_KEY)).json()
+    # check if book details is found
+    if book_data.get('error'):
+        messages.error(request, "Book Details not found")
+        return redirect(
+            reverse("studentregistration:library")
+        )
+    else:
+        return render(request, "studentregistration/book_details.html", {"title": "Book Details", "book": book_data})

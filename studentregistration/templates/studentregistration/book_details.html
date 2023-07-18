@@ -1,0 +1,68 @@
+{% extends "studentregistration/base.html" %}
+
+{% block content %}
+    {% load static %}
+    <!-- =======================
+    Page intro START -->
+    <section class="bg-blue py-7">
+        <div class="container">
+            <div class="row justify-content-lg-between">
+                <div class="col-lg-8">
+                    <!-- Title -->
+                    <h1 class="text-white">{{ book.volumeInfo.title }}</h1>
+                    <!-- Subtitle or Description-->
+                    {% if book.volumeInfo.description %}
+                        <p class="text-white">{{ book.volumeInfo.description | safe }}</p>
+                    {% elif book.volumeInfo.subtitle %}
+                        <p class="text-white">{{ book.volumeInfo.subtitle | safe }}</p>
+                    {% else %}
+                        <p class="text-white">No Description found for this Book</p>
+                    {% endif %}
+                    <!-- Content -->
+                    <ul class="list-inline mb-5">
+                        <li class="list-inline-item h6 me-4 mb-1 mb-sm-0 text-white">
+            <span class="fw-light">
+              <i class="fas fa-user text-purple"></i>
+               Author : </span
+            >{{ book.volumeInfo.authors.0 }}
+                        </li>
+                        <li class="list-inline-item me-4 mb-1 mb-sm-0">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item ms-2 h6 text-white">
+                <span class="fw-light"
+                ><i class="fas fa-calendar text-purple"> </i> Published Date: </span
+                >{{ book.volumeInfo.publishedDate }}
+                                </li>
+                                <li class="list-inline-item ms-2 h6 text-white">
+                <span class="fw-light">
+                  <i class="fas fa-graduation-cap text-purple"></i>
+                  Category: {{ book.volumeInfo.printType }}
+                </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <!-- Image -->
+                        {% if book.volumeInfo.imageLinks.thumbnail %}
+                            <img style="height: 150px; width: 200px" src="{{ book.volumeInfo.imageLinks.thumbnail }}"
+                                 class="rounded-3" alt="Book Thumbnail">
+                        {% else %}
+                            <img style="height: 150px; width: 200px" src="{% static 'assets/images/courses/4by3/default_book.jpg' %}"
+                                 class="rounded-3" alt="Book Thumbnail">
+                        {% endif %}
+                    <!-- Button -->
+                    <a href="javascript:history.go(-1)"
+                       class="btn btn-purple mb-3 w-100 mt-3">
+                         <i class="fas fa-backward text-white"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+        Page intro END -->
+{% endblock %}

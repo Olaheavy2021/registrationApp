@@ -224,6 +224,9 @@ Page Banner START -->
                                            href="{% url 'dashboard' %}"><i class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
                                         <a class="list-group-item {% if url_name == 'registrations' %}active{% endif %}" href="{% url 'studentregistration:registrations' %}"><i
                                                 class="bi bi-card-checklist fa-fw me-2"></i>My Registrations</a>
+                                        <a class="list-group-item {% if url_name == 'studentregistration:library' %}active{% endif %}"
+                                           href="{% url 'studentregistration:library' %}"><i
+                                                class="fas fa-book-open fa-fw me-2"></i>Library</a>
                                         <a class="list-group-item {% if url_name == 'profile' %}active{% endif %}"
                                            href="{% url 'profile' %}"><i class="bi bi-pencil-square fa-fw me-2"></i>Edit
                                             Profile</a>
