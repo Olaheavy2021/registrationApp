@@ -130,9 +130,16 @@ class StudentRegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
-    module = ModuleRegistrationSerializer()
-    student = StudentRegistrationSerializer()
+    student_id = serializers.PrimaryKeyRelatedField(
+        queryset=Student.objects.all(),
+        source="student.user.username",
+    )
+    module_code = serializers.SlugRelatedField(
+        queryset=Module.objects.all(),
+        slug_field="code",
+        source="module",
+    )
 
     class Meta:
         model = Registration
-        fields = ["url", "id", "student", "module", "registration_date"]
+        fields = ["url", "id", "student_id", "module_code", "registration_date"]
