@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 from .models import Student, Group, User
-from studentregistration.models import Module, Registration
+from studentregistration.models import Module, Registration, Job
 
 
 class UsernameHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -131,15 +131,21 @@ class StudentRegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
 class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
     student_id = serializers.PrimaryKeyRelatedField(
-        queryset=Student.objects.all(),
         source="student.user.username",
+        read_only=True,
     )
     module_code = serializers.SlugRelatedField(
-        queryset=Module.objects.all(),
         slug_field="code",
         source="module",
+        read_only=True,
     )
 
     class Meta:
         model = Registration
         fields = ["url", "id", "student_id", "module_code", "registration_date"]
+
+
+class JobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = "__all__"

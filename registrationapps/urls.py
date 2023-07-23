@@ -30,6 +30,7 @@ from users import api_views as api_views
 
 
 router = routers.DefaultRouter()
+router.register(r"jobs", api_views.JobViewSet)
 router.register(r"modules", api_views.ModuleViewSet)
 router.register(r"courses", api_views.CourseViewSet)
 router.register(r"students", api_views.StudentViewSet)
