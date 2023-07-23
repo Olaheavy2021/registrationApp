@@ -4,12 +4,13 @@ from rest_framework.response import Response
 from rest_framework import permissions, generics, viewsets, status
 
 from users.models import Student
-from studentregistration.models import Module, Group, Registration
+from studentregistration.models import Module, Group, Registration, Job
 from .serializers import (
     StudentSerializer,
     UserSerializer,
     ModuleSerializer,
     CourseSerializer,
+    JobSerializer,
     RegistrationSerializer,
 )
 from registrationapps.permissions import IsAdminUserOrReadOnly, IsOwnerOrAdmin
@@ -213,3 +214,16 @@ class RegistrationDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RegistrationSerializer
     name = "registration-detail"
     permission_classes = [IsOwnerOrAdmin]
+
+
+class JobViewSet(viewsets.ModelViewSet):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
+    def create(self, request, *args, **kwargs):
+        serializer = JobSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)

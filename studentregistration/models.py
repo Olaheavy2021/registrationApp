@@ -64,3 +64,21 @@ class Registration(models.Model):
                 fields=["student", "module"], name="unique_registration"
             )
         ]
+
+
+class Job(models.Model):
+    employer_name = models.CharField(max_length=100)
+    employer_logo = models.URLField(null=True, blank=True)
+    job_employment_type = models.CharField(max_length=20)
+    job_title = models.CharField(max_length=200, null=True, blank=True)
+    job_apply_link = models.URLField(null=True, blank=True)
+    job_description = models.TextField(null=True, blank=True)
+    job_city = models.CharField(max_length=100, null=True, blank=True)
+    job_country = models.CharField(max_length=15, null=True, blank=True)
+
+    def __str__(self):
+        return f"EMPLOYER: {self.employer_name} --- JOB: {self.job_title}"
+
+    class Meta:
+        verbose_name = "Job"
+        verbose_name_plural = "Jobs"
