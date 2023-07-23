@@ -8,14 +8,18 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 
 from .forms import ContactForm
-from .models import Group, Module, Registration
+from .models import Group, Module, Registration, Job
 from users.custom_decorators import login_required_message
 from studentregistration.utils import get_student_from_request
 
 
 def home(request):
     # load the courses from the database
-    all_courses = {"courses": Group.objects.all(), "title": "Welcome"}
+    all_courses = {
+        "title": "Welcome",
+        "jobs": Job.objects.all(),
+        "courses": Group.objects.all(),
+    }
     return render(request, "studentregistration/home.html", all_courses)
 
 
