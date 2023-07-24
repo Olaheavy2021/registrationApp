@@ -41,7 +41,8 @@ schema_view = get_schema_view(
     openapi.Info(
         title="CloudGeeks University API",
         default_version="v1",
-        description="CloudGeeks University is one of the UK’s largest and most diverse universities: a community of     around 35,000 students, 4,500 staff and 295,000 alumni around the globe.",
+        description="""CloudGeeks University is one of the UK’s largest and most diverse universities:
+                        a community of around 35,000 students, 4,500 staff and 295,000 alumni around the globe.""",
         license=openapi.License(name="MIT License"),
     ),
     public=True,
