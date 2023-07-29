@@ -60,13 +60,14 @@ def contact(request):
 
 
 def course_list(request):
-    if "query" in request.GET:
+    if "query" in request.GET and request.GET["query"]:
         query = request.GET["query"]
         courses = Group.objects.all()
         courses = courses.filter(name__icontains=query)
     else:
         courses = Group.objects.all()
-    all_courses = {"courses": courses, "title": "Our Courses"}
+        query = ''
+    all_courses = {"courses": courses, "title": "Our Courses", "query": query}
     return render(request, "studentregistration/course_list.html", all_courses)
 
 
@@ -167,16 +168,17 @@ def error_404(request, exception):
 @login_required_message
 @login_required
 def book_list(request):
-    if "query" in request.GET:
+    if "query" in request.GET and request.GET["query"]:
         query = request.GET["query"]
-        print("Search Query " + query)
         url = '{}?q={}&maxResults=10&key={}'
         # Request the API data and convert the JSON to Python data types
         book_data = requests.get(url.format(settings.GOOGLE_BOOKS_API_URL, query,
                                             settings.GOOGLE_API_KEY)).json()
-        return render(request, "studentregistration/book_list.html", {"title": "Library", "books": book_data['items']})
+        return render(request, "studentregistration/book_list.html",
+                      {"title": "Library", "books": book_data['items'], "query": query})
     else:
-        return render(request, "studentregistration/book_list.html", {"title": "Library"})
+        query = ''
+        return render(request, "studentregistration/book_list.html", {"title": "Library", "query": query})
 
 
 @login_required_message

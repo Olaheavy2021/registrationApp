@@ -33,7 +33,7 @@
                                 <form class="bg-body rounded p-2" method="get">
                                     <div class="input-group">
                                         <input name="query" class="form-control border-0 me-1" type="search"
-                                               placeholder="Search book">
+                                               placeholder="Search book" value="{{ query }}">
                                         <button type="submit" class="btn btn-primary mb-0 rounded">Search</button>
                                     </div>
                                 </form>
@@ -58,80 +58,82 @@
         <div class="container">
             <!-- Modules list START -->
             <div class="row g-4 justify-content-center">
-
-                <!-- Card item START -->
-                {% for book in books %}
-                    <div class="col-lg-10 col-xl-6">
-                        <div style="height: 200px" class="card shadow p-2">
-                            <div class="row g-0">
-                                <!-- Image -->
-                                <div class="col-md-4">
-                                    {% if book.volumeInfo.imageLinks.thumbnail %}
-                                    <img style="height: 150px" src="{{ book.volumeInfo.imageLinks.thumbnail }}"
-                                         class="rounded-3" alt="...">
-                                    {% else %}
-                                        <img style="height: 150px" src="{% static 'assets/images/courses/4by3/default_book.jpg' %}"
-                                             class="rounded-3" alt="...">
-                                    {% endif %}
-                                </div>
-
-                                <!-- Card body -->
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <!-- Title -->
-                                        <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
-                                            <div>
-                                                <h6 class="card-title mb-0">
-                                                    <a href="{% url 'studentregistration:book_details' book.id %}"
-                                                       class="text-purple"><b>{{ book.volumeInfo.title }}</b></a>
-                                                </h6>
-                                                <p class="small mb-2 mb-sm-0 text-purple">{{ book.volumeInfo.authors.0 }}</p>
-                                            </div>
-                                        </div>
-                                        <!-- Content -->
-                                        {% if book.volumeInfo.description %}
-                                            <p class="text-truncate-2 mb-3">{{ book.volumeInfo.description }}</p>
+                {% if query %}
+                    <!-- Card item START -->
+                    {% for book in books %}
+                        <div class="col-lg-10 col-xl-6">
+                            <div style="height: 200px" class="card shadow p-2">
+                                <div class="row g-0">
+                                    <!-- Image -->
+                                    <div class="col-md-4">
+                                        {% if book.volumeInfo.imageLinks.thumbnail %}
+                                            <img style="height: 150px" src="{{ book.volumeInfo.imageLinks.thumbnail }}"
+                                                 class="rounded-3" alt="...">
                                         {% else %}
-                                            <p class="text-truncate-2 mb-3">No Description found for this Book</p>
+                                            <img style="height: 150px"
+                                                 src="{% static 'assets/images/courses/4by3/default_book.jpg' %}"
+                                                 class="rounded-3" alt="...">
                                         {% endif %}
-                                        <!-- Info -->
-                                        <div class="d-sm-flex justify-content-sm-between align-items-center">
-                                            <!-- Title -->
-                                            <h6 class="text-purple mb-0">{{ book.volumeInfo.publishedDate }}</h6>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card item END -->
-                {% empty %}
-                    <div class="col-lg-10 col-xl-6">
-                        <div class="card shadow p-2">
-                            <div class="row g-0">
-                                <!-- Image -->
-                                <div class="col-md-4">
-                                    <img src="{% static 'assets/images/courses/4by3/error-404.jpg' %}"
-                                         class="rounded-3" alt="...">
-                                </div>
 
-                                <!-- Card body -->
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <!-- Title -->
-                                        <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
-                                            <div>
-                                                <h5 class="card-title mb-0">No Books Match Your Search</h5>
+                                    <!-- Card body -->
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <!-- Title -->
+                                            <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
+                                                <div>
+                                                    <h6 class="card-title mb-0">
+                                                        <a href="{% url 'studentregistration:book_details' book.id %}"
+                                                           class="text-purple"><b>{{ book.volumeInfo.title }}</b></a>
+                                                    </h6>
+                                                    <p class="small mb-2 mb-sm-0 text-purple">{{ book.volumeInfo.authors.0 }}</p>
+                                                </div>
                                             </div>
-                                            <span class="h6 fw-light text-purple"><i
-                                                    class="fas fa-star text-warning ms-1"></i></span>
+                                            <!-- Content -->
+                                            {% if book.volumeInfo.description %}
+                                                <p class="text-truncate-2 mb-3">{{ book.volumeInfo.description }}</p>
+                                            {% else %}
+                                                <p class="text-truncate-2 mb-3">No Description found for this Book</p>
+                                            {% endif %}
+                                            <!-- Info -->
+                                            <div class="d-sm-flex justify-content-sm-between align-items-center">
+                                                <!-- Title -->
+                                                <h6 class="text-purple mb-0">{{ book.volumeInfo.publishedDate }}</h6>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                        <!-- Card item END -->
+                    {% empty %}
+                        <div class="col-lg-10 col-xl-6">
+                            <div class="card shadow p-2">
+                                <div class="row g-0">
+                                    <!-- Image -->
+                                    <div class="col-md-4">
+                                        <img src="{% static 'assets/images/courses/4by3/error-404.jpg' %}"
+                                             class="rounded-3" alt="...">
+                                    </div>
+
+                                    <!-- Card body -->
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <!-- Title -->
+                                            <div class="d-sm-flex justify-content-sm-between mb-2 mb-sm-3">
+                                                <div>
+                                                    <h5 class="card-title mb-0">No Books Match Your Search</h5>
+                                                </div>
+                                                <span class="h6 fw-light text-purple"><i
+                                                        class="fas fa-star text-warning ms-1"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
             <!-- Instructor list END -->
         </div>

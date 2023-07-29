@@ -51,8 +51,12 @@
                             <form class="bg-body rounded p-2" method="get">
                                 <div class="input-group">
                                     <input name="query" class="form-control border-0 me-1" type="search"
-                                           placeholder="Search course ">
+                                           placeholder="Search for a Course" value="{{ query }}">
                                     <button type="submit" class="btn btn-purple mb-0 rounded">Search</button>
+                                    {% if query %}
+                                        <a class="btn btn-purple mb-0 ms-2 rounded"
+                                           href="{% url 'studentregistration:course_list' %}">Load All Courses</a>
+                                    {% endif %}
                                 </div>
                             </form>
                         </div>
@@ -95,17 +99,18 @@
                             </div>
                             <!-- Title -->
                             <h5 class="mb-2">
-                                <a href="{% url 'studentregistration:course_details' course.id %}" class="stretched-link">
+                                <a href="{% url 'studentregistration:course_details' course.id %}"
+                                   class="stretched-link">
                                     {{ course.name }}
                                 </a>
                             </h5>
                             <h6 class="mb-0">
-                                {{ course.modules.count }} 
+                                {{ course.modules.count }}
                                 {% if course.modules.count|add:"-1" %} Modules {% else %}Module{% endif %}
                             </h6>
                         </div>
                     </div>
-                    {% empty %}
+                {% empty %}
                     <center>
                         <div class="col-sm-6 col-md-4 col-xl-3 col-lg-3">
                             <div style="height: 275px; width: 300px;"
@@ -115,13 +120,13 @@
                                     <img src="{% static 'assets/images/courses/4by3/error-404.jpg' %}" alt="">
                                 </div>
                                 <!-- Title -->
-                                <h5 class="mb-2"><a href="{% url 'studentregistration:course_list'%}"
+                                <h5 class="mb-2"><a href="{% url 'studentregistration:course_list' %}"
                                                     class="stretched-link">Sorry, no matching courses found! </a></h5>
-                              
+
                             </div>
                         </div>
                     </center>
-                   
+
                 {% endfor %}
             </div>
         </div>
