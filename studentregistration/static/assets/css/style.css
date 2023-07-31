@@ -2504,6 +2504,19 @@ progress {
   -webkit-overflow-scrolling: touch;
 }
 
+
+.job-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+  margin: 20px;
+}
+.job-card {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 @media (max-width: 575.98px) {
   .table-responsive-sm {
     overflow-x: auto;
