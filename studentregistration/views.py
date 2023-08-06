@@ -208,4 +208,5 @@ def job_list(request):
     paginated_jobs = Paginator(jobs, 5)
     page_list = request.GET.get("page")
     paginated_jobs = paginated_jobs.get_page(page_list)
-    return render(request, "studentregistration/job_list.html", {"title": "Graduate Jobs", "paginated_jobs": paginated_jobs})
+    return render(request, "studentregistration/job_list.html",
+                  {"title": "Graduate Jobs", "paginated_jobs": paginated_jobs})
