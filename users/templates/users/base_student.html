@@ -227,6 +227,9 @@ Page Banner START -->
                                         <a class="list-group-item {% if url_name == 'studentregistration:library' %}active{% endif %}"
                                            href="{% url 'studentregistration:library' %}"><i
                                                 class="fas fa-book-open fa-fw me-2"></i>Library</a>
+                                         <a class="list-group-item {% if url_name == 'studentregistration:job_list' %}active{% endif %}"
+                                           href="{% url 'studentregistration:job_list' %}"><i
+                                                class="fas fa-briefcase fa-fw me-2"></i>Job Centre</a>
                                         <a class="list-group-item {% if url_name == 'profile' %}active{% endif %}"
                                            href="{% url 'profile' %}"><i class="bi bi-pencil-square fa-fw me-2"></i>Edit
                                             Profile</a>

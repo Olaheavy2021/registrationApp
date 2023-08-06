@@ -237,37 +237,4 @@
     </section>
     <!-- =======================
     Listed course END -->
-
-    <!-- =======================
-    Event START -->
-    <section class="pt-0">
-        <div class="container">
-            <!-- Title -->
-            <div class="row mb-4">
-                <h2 class="mb-0">Graduate Jobs Listing</h2>
-            </div>
-
-             <!-- Jobs Start -->
-            <div class="job-grid-container">
-              {% for job in jobs %}
-                  <div class="job-card">
-                    
-                    {% if job.employer_logo %}
-                    <img src="{{ job.employer_logo }}" alt="{{ job.employer_name }} icon" class="img-fluid">
-                    {% else %}
-                    <img src="{% static 'assets/images/def-job.jpg' %}" alt="{{ job.employer_name }} icon" class="img-fluid">
-                    {% endif %}
-                      
-                      <h2>{{ job.job_title }}</h2>
-                      <p>{{ job.job_employment_type }}</p>
-                      <p>{{ job.job_city }}, {{ job.job_country }}</p>
-                      <a href="{{ job.job_apply_link }}" target="_blank" class="btn btn-primary">Apply Now</a>
-                  </div>
-              {% endfor %}
-            </div>
-            <!-- Jobs End -->
-        </div>
-    </section>
-    <!-- =======================
-    Event END -->
 {% endblock %}

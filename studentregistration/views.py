@@ -17,7 +17,6 @@ def home(request):
     # load the courses from the database
     all_courses = {
         "title": "Welcome",
-        "jobs": Job.objects.all(),
         "courses": Group.objects.all(),
     }
     return render(request, "studentregistration/home.html", all_courses)
@@ -199,3 +198,15 @@ def book_details(request, id):
         )
     else:
         return render(request, "studentregistration/book_details.html", {"title": "Book Details", "book": book_data})
+
+
+@login_required_message
+@login_required
+def job_list(request):
+    jobs = Job.objects.all()
+    # paginate the registrations
+    paginated_jobs = Paginator(jobs, 5)
+    page_list = request.GET.get("page")
+    paginated_jobs = paginated_jobs.get_page(page_list)
+    return render(request, "studentregistration/job_list.html",
+                  {"title": "Graduate Jobs", "paginated_jobs": paginated_jobs})
