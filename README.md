@@ -14,6 +14,8 @@ A Django-based web application that follows the Model View Controller (MVC) para
 - Clone the repository from GitHub `git clone URL`
 - Press enter to start the clone process
 - Navigate to the cloned repository
+- Create a file named `.env` in the root directory of the project (registrationapps)
+- Paste in the details of the .env file provided.
 
 ### Ubuntu
 
@@ -53,3 +55,9 @@ A Django-based web application that follows the Model View Controller (MVC) para
   - Run the unit tests in the project `coverage run manage.py test`
   - Generate coverage report in the Terminal `coverage report`
   - Generate HTML coverage report `coverage html`
+## Additional Features Implemented
+- Implemented additional model (Job) to store graduate job information
+- Users can reset password 
+- Implemented Django REST framework to create RESTful API
+- Made use of Azure Functions to fetch Graduate Job Listings from an external API, store them in the database and also delete them daily
+- Integrated with Google API to fetch list and details of books based on user search.
