@@ -15,4 +15,5 @@ urlpatterns = [
     path("student/registrations/", views.student_registrations, name="registrations"),
     path("library/books", views.book_list, name="library"),
     path("library/book/<str:id>/", views.book_details, name="book_details"),
+    path("student/graduate-jobs/", views.job_list, name="job_list"),
 ]
