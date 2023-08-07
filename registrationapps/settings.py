@@ -10,27 +10,41 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import environ
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 from django.urls import reverse_lazy
 
-
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialise environment variables
+load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-b$(j-$z_y3nlw*%y=7grynrl&nner-%!+&ydw!o!hf@s@wl$!e"
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "b$(j-$z_y3nlw*%y=7grynrl&nner-%!+&ydw!o!hf@s@wl$!e"
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", False)
 
-ALLOWED_HOSTS = []
+
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = [
+        "https://cloudgeeks.azurewebsites.net",
+        "cloudgeeks.azurewebsites.net",
+    ]
+    CSRF_TRUSTED_ORIGINS = ["https://cloudgeeks.azurewebsites.net"]
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Application definition
 
@@ -48,11 +62,13 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "rest_framework",
     "drf_yasg",
+    "storages",
 ]
 
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -86,24 +102,24 @@ WSGI_APPLICATION = "registrationapps.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': env('AZURE_DB_NAME'),
-#         'HOST': env('AZURE_DB_HOST'),
-#         'PORT': env('AZURE_DB_PORT'),
-#         'USER': env('AZURE_DB_USER'),
-#         'PASSWORD': env('AZURE_DB_PASSWORD')
-#     }
-# }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ.get("AZURE_DB_NAME"),
+            "HOST": os.environ.get("AZURE_DB_HOST"),
+            "PORT": os.environ.get("AZURE_DB_PORT"),
+            "USER": os.environ.get("AZURE_DB_USER"),
+            "PASSWORD": os.environ.get("AZURE_DB_PASSWORD"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -136,12 +152,24 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+if DEBUG:
+    STATIC_URL = "static/"
+    MEDIA_ROOT = BASE_DIR / "media"
+    MEDIA_URL = "/media/"
+else:
+    MEDIA_URL = (
+        f"https://{os.environ.get('AZURE_SA_NAME')}.blob.core.windows.net/media/"
+    )
+    STATIC_URL = (
+        f"https://{os.environ.get('AZURE_SA_NAME')}.blob.core.windows.net/static/"
+    )
+    DEFAULT_FILE_STORAGE = "registrationapps.storages.AzureMediaStorage"
+    STATICFILES_STORAGE = "registrationapps.storages.AzureStaticStorage"
+    AZURE_SA_NAME = os.environ.get("AZURE_SA_NAME")
+    AZURE_SA_KEY = os.environ.get("AZURE_SA_KEY")
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    MEDIA_ROOT = BASE_DIR / "mediafiles"
 
-STATIC_URL = "static/"
-
-MEDIA_ROOT = BASE_DIR / "media"
-
-MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -181,10 +209,10 @@ LOGIN_URL = reverse_lazy("login")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
 # Google Books API
-GOOGLE_BOOKS_API_URL = env("GOOGLE_BOOKS_API_URL")
-GOOGLE_API_KEY = env("GOOGLE_API_KEY")
+GOOGLE_BOOKS_API_URL = os.environ.get("GOOGLE_BOOKS_API_URL")
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")

@@ -1,5 +1,7 @@
 from django.db import models
-from users.models import Student, Group
+from django.contrib.auth.models import Group
+
+from users.models import Student
 
 
 class Module(models.Model):
