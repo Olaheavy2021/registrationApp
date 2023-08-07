@@ -6,8 +6,7 @@
 __pycache__
 
 # Environment Variables #
-registrationapps/.env
-
+.env
 
 # Visual Studio Code # 
 .vscode/* 
