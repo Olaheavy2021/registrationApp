@@ -1,42 +1,47 @@
 from functools import wraps
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 default_message = "You do not have permission to view this page. Please login first."
 
 
-def custom_user_passes_test(
-        test_func, message=default_message
+def login_required_with_message(
+    function=None, message=default_message, login_url=None, redirect_field_name="next"
 ):
     """
     Decorator for views that checks that the user passes the given test,
-    redirecting to the log-in page if necessary. The test should be a callable
+    redirecting to the log-in page if necessary. The test is a callable
     that takes the user object and returns True if the user passes.
+
     """
-
-    def decorator(view_func):
-        @wraps(view_func)
-        def _wrapped_view(request, *args, **kwargs):
-            if not test_func(request.user):
-                messages.error(request, message)
-            return view_func(request, *args, **kwargs)
-
-        return _wrapped_view
-
-    return decorator
-
-
-def login_required_message(
-        function=None,
-        message=default_message
-):
-    """
-    Decorator for views that checks that the user is logged in, redirecting
-    to the log-in page if necessary.
-    """
-    actual_decorator = custom_user_passes_test(
-        lambda u: u.is_authenticated,
-        message=message,
+    actual_decorator = login_required(
+        login_url=login_url, redirect_field_name=redirect_field_name
     )
-    if function:
-        return actual_decorator(function)
-    return actual_decorator
+
+    @wraps(function)
+    def wrapped_function(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, message)
+        return function(request, *args, **kwargs)
+
+    decorated_function = actual_decorator(wrapped_function)
+
+    return decorated_function
+
+
+def redirect_if_admin(function):
+    """
+    View decorator to redirect admin to the admin page if they visit some student specific pages.
+    """
+
+    @wraps(function)
+    def wrapped_function(request, *args, **kwargs):
+        if (
+            request.user.is_staff or request.user.is_superuser
+        ):  # Check if the user is an admin
+            messages.error(request, "You can not see the page as an admin.")
+            return redirect("/admin/")  # Redirect to admin site
+        return function(request, *args, **kwargs)
+
+    return wrapped_function

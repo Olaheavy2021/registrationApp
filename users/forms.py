@@ -5,10 +5,16 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 from users.models import Student
 
+# A constant to define a common CSS class used in form widgets.
 FORM_CLASS_NAME = "form-control border-0 bg-light rounded-end ps-1"
 
 
-class StudentRegistrationForm(UserCreationForm):
+class UserStudentRegistrationForm(UserCreationForm):
+    """
+    Form for student registration. Inherits from Django's built-in UserCreationForm
+    and adds additional fields specific to the Student model.
+    """
+
     username = forms.CharField(
         max_length=30,
         widget=forms.TextInput(
@@ -92,6 +98,10 @@ class StudentRegistrationForm(UserCreationForm):
 
 
 class CustomLoginForm(forms.Form):
+    """
+    Custom user login form
+    """
+
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -113,6 +123,10 @@ class CustomLoginForm(forms.Form):
 
 
 class UserUpdateForm(forms.ModelForm):
+    """
+    Form to update user attributes like first name, last name, and email.
+    """
+
     first_name = forms.CharField(
         max_length=30,
         widget=forms.TextInput(
@@ -153,6 +167,11 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    """
+    Form to update a student's profile,
+    including their date of birth, address, city, country, and profile photo.
+    """
+
     class Meta:
         model = Student
         fields = ["dob", "address", "city", "country", "photo"]
@@ -197,6 +216,11 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
+    """
+    Custom form to change a user's password,
+    inheriting from Django's built-in PasswordChangeForm.
+    """
+
     old_password = forms.CharField(
         required=True, widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
@@ -209,6 +233,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
     def __init__(self, *args, **kwargs):
         super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
-        self.fields['old_password'].label = "Old Password"
-        self.fields['new_password1'].label = "New Password"
-        self.fields['new_password2'].label = "Confirm New Password"
+        self.fields["old_password"].label = "Old Password"
+        self.fields["new_password1"].label = "New Password"
+        self.fields["new_password2"].label = "Confirm New Password"
