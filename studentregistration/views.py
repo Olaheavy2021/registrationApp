@@ -160,7 +160,7 @@ def unregister(request, id):
     registration.delete()
     messages.success(request, f"Successfully unregistered from {module.name}")
     return redirect(
-        reverse("studentregistration:module_details", args=[module.code])
+        reverse("studentregistration:registrations")
     )
 
 

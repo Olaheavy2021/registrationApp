@@ -121,6 +121,7 @@ class UserUpdateForm(forms.ModelForm):
                 "class": "form-control",
                 "readonly": "readonly",
                 "id": "firstName",
+                "required": "required",
             }
         ),
     )
@@ -133,6 +134,7 @@ class UserUpdateForm(forms.ModelForm):
                 "class": "form-control",
                 "readonly": "readonly",
                 "id": "firstName",
+                "required": "required",
             }
         ),
     )
@@ -163,6 +165,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     "class": "form-control",
                     "placeholder": "DD-MM-YYYY",
                     "type": "date",
+                    'required': 'required'
                 }
             ),
             "address": forms.TextInput(
@@ -170,6 +173,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     "id": "address",
                     "class": "form-control",
                     "placeholder": "78, Cross Bedford St.",
+                    "required": "required",
                 }
             ),
             "city": forms.TextInput(
@@ -177,6 +181,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     "id": "city",
                     "class": "form-control",
                     "placeholder": "Sheffield",
+                    "required": "required",
                 }
             ),
             "country": forms.TextInput(
@@ -184,6 +189,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     "id": "country",
                     "class": "form-control",
                     "placeholder": "United Kingdom",
+                    "required": "required",
                 }
             ),
             "photo": forms.FileInput(
