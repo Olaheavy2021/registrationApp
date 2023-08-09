@@ -61,7 +61,7 @@
                             {% if can_register %}
 
                                 {% if has_registration %}
-                                    <a  onclick="unregisterModule({{ module.id}})"
+                                    <a onclick="unregisterModule({{ module.id }})"
                                        class="btn btn-danger mb-3 w-100">
                                         Unregister
                                     </a>
@@ -70,19 +70,19 @@
                                        class="btn btn-purple mb-3 w-100">Register</a>
                                 {% endif %}
                             {% else %}
-                                <p>You do not belong to a course offering this module.</p>
+                                <p>🙄 You do not belong to a course offering this module.</p>
 
                             {% endif %}
 
                         {% else %}
                             <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}"
                                class="btn btn-primary mb-3 w-100">
-                                Login to get started
+                                Login to get started 😉
                             </a>
                         {% endif %}
                     {% else %}
                         <p>
-                            This module is currently closed to new registrations.
+                            🤷‍♂️ This module is currently closed to new registrations.
                         </p>
                     {% endif %}
                 </div>
@@ -132,63 +132,67 @@
                         <div class="card-body p-sm-4">
                             <div class="tab-content" id="course-pills-tabContent">
                                 {% if user.is_authenticated %}
-                                    {% if registrations_count %}
-                                        {% if has_registration %}
-                                            <div class="row">
-                                                {% for registration in registrations %}
-                                                    <!-- Card item START -->
-                                                    <div class="col-md-6 col-xxl-4">
-                                                        <div class=" card bg-transparent border border-2 border-purple h-100">
-                                                            <!-- Card header -->
-                                                            <div class="card-header bg-transparent border-bottom d-flex justify-content-between">
-                                                                <div class="d-sm-flex align-items-center">
-                                                                    <!-- Avatar -->
-                                                                    <div class="avatar avatar-md flex-shrink-0">
-                                                                        <img
-                                                                                class="avatar-img rounded-circle"
-                                                                                src="{{ registration.student.photo.url }}"
-                                                                                alt="avatar"
-                                                                        />
-                                                                    </div>
-                                                                    <!-- Info -->
-                                                                    <div class="ms-0 ms-sm-2 mt-2 mt-sm-0">
-                                                                        <h5 class="mb-0">
-                                                                            <a href="#">
-                                                                                {{ registration.student.user.first_name }} {{ registration.student.user.last_name }}
-                                                                            </a>
-                                                                        </h5>
-                                                                        <span class="text-body small">
+                                    {% if can_register %}
+                                        {% if registrations_count %}
+                                            {% if has_registration %}
+                                                <div class="row">
+                                                    {% for registration in registrations %}
+                                                        <!-- Card item START -->
+                                                        <div class="col-md-6 col-xxl-4">
+                                                            <div class=" card bg-transparent border border-2 border-purple h-100">
+                                                                <!-- Card header -->
+                                                                <div class="card-header bg-transparent border-bottom d-flex justify-content-between">
+                                                                    <div class="d-sm-flex align-items-center">
+                                                                        <!-- Avatar -->
+                                                                        <div class="avatar avatar-md flex-shrink-0">
+                                                                            <img
+                                                                                    class="avatar-img rounded-circle"
+                                                                                    src="{{ registration.student.photo.url }}"
+                                                                                    alt="avatar"
+                                                                            />
+                                                                        </div>
+                                                                        <!-- Info -->
+                                                                        <div class="ms-0 ms-sm-2 mt-2 mt-sm-0">
+                                                                            <h5 class="mb-0">
+                                                                                <a href="#">
+                                                                                    {{ registration.student.user.first_name }} {{ registration.student.user.last_name }}
+                                                                                </a>
+                                                                            </h5>
+                                                                            <span class="text-body small">
                                       <i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>
                                       {{ registration.student.city }}, {{ registration.student.country }}
                                     </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Card footer -->
+                                                                <div class="card-footer bg-transparent border-top border-purple">
+                                                                    <div class="d-sm-flex justify-content-between align-items-center">
+                                                                        <!-- Rating star -->
+                                                                        <h6 class="mb-2 mb-sm-0">
+                                                                            <i class="bi bi-calendar fa-fw text-purple me-2"></i>
+                                                                            <span class="text-body">Registered on:</span>
+                                                                            {{ registration.date }}
+                                                                        </h6>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-                                                            <!-- Card footer -->
-                                                            <div class="card-footer bg-transparent border-top border-purple">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <!-- Rating star -->
-                                                                    <h6 class="mb-2 mb-sm-0">
-                                                                        <i class="bi bi-calendar fa-fw text-purple me-2"></i>
-                                                                        <span class="text-body">Registered on:</span>
-                                                                        {{ registration.date }}
-                                                                    </h6>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <!-- Card item END -->
-                                                {% endfor %}
-                                            </div>
+                                                        <!-- Card item END -->
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <p>😟 Register for module to see other registered student</p>
+                                            {% endif %}
                                         {% else %}
-                                            <p>Register for module to see other registered student</p>
+                                            <p>Yay! You're about to be the first on the module. 🎉🎊</p>
                                         {% endif %}
                                     {% else %}
-                                        <p>Yay! You're about to be the first on the module. 🎉🎊</p>
+                                        <p>🙄 You do not belong to a course offering this module.</p>
                                     {% endif %}
                                 {% else %}
-                                    <p>Login to see other registered student</p>
+                                    <p>Login to see other registered student 😉</p>
                                 {% endif %}
                             </div>
                         </div>
