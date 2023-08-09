@@ -30,65 +30,62 @@
                   <i class="fas fa-graduation-cap text-purple"></i>
                   Category: {{ module.category }}
                 </span>
-                                </li>
-                                <li class="list-inline-item h6 mb-0 text-white">
-                                    Availability:
-                                    {% if module.available %}
-                                        <i class="fas fa-lock-open text-success-emphasis"></i>
-                                        Open
-                                    {% else %}
-                                        <i class="fas fa-lock text-danger"></i>
-                                        Closed
-                                    {% endif %}
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+              </li>
+              <li class="list-inline-item h6 mb-0 text-white">
+                Availability: {% if module.available %}
+                <i class="fas fa-lock-open text-success-emphasis"></i>
+                Open {% else %}
+                <i class="fas fa-lock text-danger"></i>
+                Closed {% endif %}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
 
-                <div class="col-lg-3">
-                    <h6 class="text-white lead fw-light mb-3">
-                        <i class="fas fa-user-graduate text-purple me-2"></i>
-                        {{ registrations_count }} {% if registrations_count == 1 %} student {% else %}
-                        students {% endif %} already enrolled
-                    </h6>
-                    <!-- Button -->
-                    {% if module.available %}
-
-                        {% if user.is_authenticated %}
-
-                            {% if can_register %}
-
-                                {% if has_registration %}
-                                    <a onclick="unregisterModule({{ module.id }})"
-                                       class="btn btn-danger mb-3 w-100">
-                                        Unregister
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'studentregistration:register' module.code %}"
-                                       class="btn btn-purple mb-3 w-100">Register</a>
-                                {% endif %}
-                            {% else %}
-                                <p>🙄 You do not belong to a course offering this module.</p>
-
-                            {% endif %}
-
-                        {% else %}
-                            <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}"
-                               class="btn btn-primary mb-3 w-100">
-                                Login to get started 😉
-                            </a>
-                        {% endif %}
-                    {% else %}
-                        <p>
-                            🤷‍♂️ This module is currently closed to new registrations.
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- =======================
+      <div class="col-lg-3">
+        <h6 class="text-white lead fw-light mb-3">
+          <i class="fas fa-user-graduate text-purple me-2"></i>
+          {{ registrations_count }} 
+          {% if registrations_count == 1 %}  student {% else %} students {% endif %} already enrolled
+        </h6>
+        <!-- Button -->
+        {% if module.available %} 
+          {% if user.is_authenticated %} 
+            {% if can_register %} 
+              {% if has_registration %}
+                <a
+                  onclick="unregisterModule({{ module.id }})"
+                  class="btn btn-danger mb-3 w-100"
+                >
+                  Unregister
+                </a>
+              {% else %}
+                <a
+                  href="{% url 'studentregistration:register' module.code %}"
+                  class="btn btn-purple mb-3 w-100"
+                  >Register</a
+                >
+              {% endif %}
+            {% else %}
+              <p>🙄 You do not belong to a course offering this module.</p>
+            {% endif %}
+          {% else %}
+            <a
+              href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}"
+              class="btn btn-primary mb-3 w-100"
+            >
+              Login to get started 😉
+            </a>
+          {% endif %}
+        {% else %}
+          <p>🤷‍♂️ This module is currently closed to new registrations.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- =======================
         Page intro END -->
 
 <!-- =======================
@@ -125,164 +122,153 @@
           </div>
           <!-- Tabs END -->
 
-                <!-- Main content START -->
-                <div class="col-12">
-                    <div class="card shadow rounded-2 p-0 mt-n5">
-                        <!-- Tabs START -->
-                        <div class="card-header border-bottom px-4 pt-3 pb-0">
-                            <ul
-                                    class="nav nav-bottom-line py-0"
-                                    id="course-pills-tab"
-                                    role="tablist"
-                            >
-                                <!-- Tab item -->
-                                <li class="nav-item me-2 me-sm-4" role="presentation">
-                                    <button
-                                            class="nav-link mb-2 mb-md-0 active"
-                                            id="course-pills-tab-1"
-                                            data-bs-toggle="pill"
-                                            data-bs-target="#course-pills-1"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="course-pills-1"
-                                            aria-selected="true"
-                                    >
-                                        Student Registrations
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Tabs END -->
+          <!-- Main content START -->
+          <div class="col-12">
+            <div class="card shadow rounded-2 p-0 mt-n5">
+              <!-- Tabs START -->
+              <div class="card-header border-bottom px-4 pt-3 pb-0">
+                <ul
+                  class="nav nav-bottom-line py-0"
+                  id="course-pills-tab"
+                  role="tablist"
+                >
+                  <!-- Tab item -->
+                  <li class="nav-item me-2 me-sm-4" role="presentation">
+                    <button
+                      class="nav-link mb-2 mb-md-0 active"
+                      id="course-pills-tab-1"
+                      data-bs-toggle="pill"
+                      data-bs-target="#course-pills-1"
+                      type="button"
+                      role="tab"
+                      aria-controls="course-pills-1"
+                      aria-selected="true"
+                    >
+                      Student Registrations
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <!-- Tabs END -->
 
-                        <!-- Tab contents START -->
-                        <div class="card-body p-sm-4">
-                            <div class="tab-content" id="course-pills-tabContent">
-                                {% if user.is_authenticated %}
-                                    {% if can_register %}
-                                        {% if registrations_count %}
-                                            {% if has_registration %}
-                                                <div class="row">
-                                                    {% for registration in registrations %}
-                                                        <!-- Card item START -->
-                                                        <div class="col-md-6 col-xxl-4">
-                                                            <div class=" card bg-transparent border border-2 border-purple h-100">
-                                                                <!-- Card header -->
-                                                                <div class="card-header bg-transparent border-bottom d-flex justify-content-between">
-                                                                    <div class="d-sm-flex align-items-center">
-                                                                        <!-- Avatar -->
-                                                                        <div class="avatar avatar-md flex-shrink-0">
-                                                                            <img
-                                                                                    class="avatar-img rounded-circle"
-                                                                                    src="{{ registration.student.photo.url }}"
-                                                                                    alt="avatar"
-                                                                            />
-                                                                        </div>
-                                                                        <!-- Info -->
-                                                                        <div class="ms-0 ms-sm-2 mt-2 mt-sm-0">
-                                                                            <h5 class="mb-0">
-                                                                                <a href="#">
-                                                                                    {{ registration.student.user.first_name }} {{ registration.student.user.last_name }}
-                                                                                </a>
-                                                                            </h5>
-                                                                            {% if registration.student.city  or registration.student.country %}
-                                                                            <span class="text-body small">
-                                                                              <i
-                                                                                class="fas fa-fw fa-map-marker-alt me-1 mt-1"
-                                                                              ></i>
-                                                                              
-                                                                              {% if registration.student.city %}
-                                                                                {{ registration.student.city }}, 
-                                                                              {% endif %}
-                                                                              
-                                                                              {% if registration.student.country %}
-                                                                                {{ registration.student.country }}
-                                                                              {% endif %}
-                                                                                
-                                                                            </span>
-                                                                            {% endif %}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+              <!-- Tab contents START -->
+              <div class="card-body p-sm-4">
+                <div class="tab-content" id="course-pills-tabContent">
+                  {% if user.is_authenticated %} 
+                    {% if can_register %} 
+                      {% if registrations_count %} 
+                        {% if has_registration %}
+                          <div class="row">
+                            {% for registration in registrations %}
+                              <!-- Card item START -->
+                              <div class="col-md-6 col-xxl-4">
+                                <div
+                                  class="
+                                    card
+                                    bg-transparent
+                                    border border-2 border-purple
+                                    h-100
+                                  "
+                                >
+                                  <!-- Card header -->
+                                  <div
+                                    class="
+                                      card-header
+                                      bg-transparent
+                                      border-bottom
+                                      d-flex
+                                      justify-content-between
+                                    "
+                                  >
+                                    <div class="d-sm-flex align-items-center">
+                                      <!-- Avatar -->
+                                      <div class="avatar avatar-md flex-shrink-0">
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="{{ registration.student.photo.url }}"
+                                          alt="avatar"
+                                        />
+                                      </div>
+                                      <!-- Info -->
+                                      <div class="ms-0 ms-sm-2 mt-2 mt-sm-0">
+                                        <h5 class="mb-0">
+                                          <a href="#">
+                                            {{ registration.student.user.first_name }} 
+                                            {{ registration.student.user.last_name }}
+                                          </a>
+                                        </h5>
+                                        {% if registration.student.city or registration.student.country %}
+                                        <span class="text-body small">
+                                          <i
+                                            class="fas fa-fw fa-map-marker-alt me-1 mt-1"
+                                          ></i>
 
-                                                                <!-- Card footer -->
-                                                                <div class="card-footer bg-transparent border-top border-purple">
-                                                                    <div class="d-sm-flex justify-content-between align-items-center">
-                                                                        <!-- Rating star -->
-                                                                        <h6 class="mb-2 mb-sm-0">
-                                                                            <i class="bi bi-calendar fa-fw text-purple me-2"></i>
-                                                                            <span class="text-body">Registered on:</span>
-                                                                            {{ registration.date }}
-                                                                        </h6>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Card item END -->
-                                                    {% endfor %}
-                                                </div>
-                                            {% else %}
-                                                <p>😟 Register for module to see other registered student</p>
-                                            {% endif %}
-                                        {% else %}
-                                            <p>Yay! You're about to be the first on the module. 🎉🎊</p>
+                                          {% if registration.student.city %} {{ registration.student.city }}, 
+                                          {% endif %} 
+                                          {% if registration.student.country %} 
+                                          {{ registration.student.country }} 
+                                          {% endif %}
+                                        </span>
                                         {% endif %}
-                                    {% else %}
-                                        <p>🙄 You do not belong to a course offering this module.</p>
-                                    {% endif %}
-                                {% else %}
-                                    <p>Login to see other registered student 😉</p>
-                                {% endif %}
-                                  
-                              </div>
-                            </div>
-                          </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
-                          <!-- Card footer -->
-                          <div
-                            class="
-                              card-footer
-                              bg-transparent
-                              border-top border-purple
-                            "
-                          >
-                            <div
-                              class="
-                                d-sm-flex
-                                justify-content-between
-                                align-items-center
-                              "
-                            >
-                              <!-- Rating star -->
-                              <h6 class="mb-2 mb-sm-0">
-                                <i class="bi bi-calendar fa-fw text-purple me-2"></i>
-                                <span class="text-body">Registered on:</span>
-                                {{ registration.date }}
-                              </h6>
-                            </div>
+                                  <!-- Card footer -->
+                                  <div
+                                    class="
+                                      card-footer
+                                      bg-transparent
+                                      border-top border-purple
+                                    "
+                                  >
+                                    <div
+                                      class="
+                                        d-sm-flex
+                                        justify-content-between
+                                        align-items-center
+                                      "
+                                    >
+                                      <!-- Rating star -->
+                                      <h6 class="mb-2 mb-sm-0">
+                                        <i
+                                          class="bi bi-calendar fa-fw text-purple me-2"
+                                        ></i>
+                                        <span class="text-body">Registered on:</span>
+                                        {{ registration.date }}
+                                      </h6>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Card item END -->
+                            {% endfor %}
                           </div>
-                        </div>
-                      </div>
-                      <!-- Card item END -->
-                      {% endfor %}
-                    </div>
+                        {% else %}
+                          <p>😟 Register for module to see other registered student</p>
+                        {% endif %} 
+                      {% else %}
+                        <p>Yay! You're about to be the first on the module. 🎉🎊</p>
+                      {% endif %} 
+                    {% else %}
+                      <p>🙄 You do not belong to a course offering this module.</p>
+                    {% endif %}
                   {% else %}
-                    <p>Register for module to see other registered student</p>
-                  {% endif %} 
-                {% else %}
-                  <p>Yay! You're about to be the first on the module. 🎉🎊</p>
-                {% endif %}
-              {% else %}
-                <p>Login to see other registered student</p>
-              {% endif %}
+                    <p>Login to see other registered student 😉</p>
+                  {% endif %}
+                </div>
+              </div>
             </div>
           </div>
-          <!-- Tab contents END -->
         </div>
+        <!-- Card item END -->
       </div>
-      <!-- Main content END -->
     </div>
-    <!-- Row END -->
   </div>
+  <!-- Tab contents END -->
+
+  <!-- Main content END -->
+  <!-- Row END -->
 </section>
 <!-- =======================
         Page content END -->
