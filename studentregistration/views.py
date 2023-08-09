@@ -203,10 +203,6 @@ def unregister(request, id):
     module = registration.module
     registration.delete()
     messages.success(request, f"Successfully unregistered from {module.name}")
-    # return redirect(
-    #     reverse("studentregistration:registrations")
-    # )
-    # return redirect(reverse("studentregistration:module_details", args=[module.code]))
 
     # redirect to previous page that sent user here
     # or build the module page url and redirect user there
