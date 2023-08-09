@@ -151,13 +151,15 @@
                         <li class="px-3 mb-3">
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
-                                <div class="avatar me-3">
-                                    <img
+                                {% if request.user.student.photo.url %}
+                                    <div class="avatar me-3">
+                                        <img
                                             class="avatar-img rounded-circle shadow"
                                             src="{{ user.student.photo.url }}"
                                             alt="avatar"
-                                    />
-                                </div>
+                                        />
+                                    </div>
+                                {% endif %}
                                 <div>
                                     <a class="h6" href="#">{{ user.first_name }} {{ user.last_name }}</a>
                                     <p class="small m-0">{{ user.email }}</p>
@@ -168,11 +170,19 @@
                             <hr class="dropdown-divider"/>
                         </li>
                         <!-- Links -->
-                        <li>
-                            <a class="dropdown-item" href="{% url 'profile' %}">
-                                <i class="bi bi-person fa-fw me-2"></i>Edit Profile
-                            </a>
-                        </li>
+                        {% if request.user.is_admin or request.user.is_superuser %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">
+                                    <i class="bi bi-person fa-fw me-2"></i>Admin Dashboard
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'profile' %}">
+                                    <i class="bi bi-person fa-fw me-2"></i>Edit Profile
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"
                             ><i class="bi bi-power fa-fw me-2"></i>Sign Out</a
