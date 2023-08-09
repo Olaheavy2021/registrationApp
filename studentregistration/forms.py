@@ -2,6 +2,12 @@ from django import forms
 
 
 class ContactForm(forms.Form):
+    """
+    A Django form for the contact-us page.
+    It captures essential details like name, email, subject,
+    and the message from the page visitor.
+    """
+
     name = forms.CharField(
         required=True,
         max_length=50,

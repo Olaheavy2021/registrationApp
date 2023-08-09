@@ -210,6 +210,12 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
+RECIPIENTS = [
+    EMAIL_HOST_USER,
+    "themaleem@gmail.com",
+    "charityodoh75@gmail.com",
+]
+
 # Google Books API
 GOOGLE_BOOKS_API_URL = os.environ.get("GOOGLE_BOOKS_API_URL")
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
