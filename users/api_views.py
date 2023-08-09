@@ -183,6 +183,7 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     name = "registration"
     permission_classes = [permissions.IsAuthenticated]
 
+    # overloading the default create() method to cater for custom workflow
     def create(self, request, *args, **kwargs):
         student_id = request.data.get("student_id")
         module_code = request.data.get("module_code")
@@ -197,7 +198,6 @@ class RegistrationViewSet(viewsets.ModelViewSet):
             )
 
         registration_data = {"student": student.id, "module": module.id}
-
         serializer = self.get_serializer(data=registration_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -217,13 +217,17 @@ class RegistrationDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class JobViewSet(viewsets.ModelViewSet):
+    # Fetch all Job objects from the database as the default queryset
     queryset = Job.objects.all()
+
     serializer_class = JobSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
     def create(self, request, *args, **kwargs):
         serializer = JobSerializer(data=request.data, many=True)
         if serializer.is_valid():
+            # Delete all existing Job records first and popualate new ones to prevent duplicates
+            Job.objects.all().delete()
             serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

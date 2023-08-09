@@ -1,33 +1,35 @@
 from datetime import datetime
-
+from django.utils import timezone
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone
 
 from .models import Student, User
 from .forms import CustomPasswordChangeForm
 from studentregistration.models import Registration
 from .forms import (
-    StudentRegistrationForm,
     CustomLoginForm,
     UserUpdateForm,
     ProfileUpdateForm,
+    UserStudentRegistrationForm,
 )
-from .custom_decorators import login_required_message
+from .custom_decorators import login_required_with_message, redirect_if_admin
 
 
 def login_view(request):
+    """
+    View function for handling user login.
+    """
     if request.method == "POST":
         form = CustomLoginForm(data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
+            # Check if user exists and is authenticated
             if user is not None:
                 login(request, user)
                 messages.success(request, "Successfully logged in")
@@ -43,13 +45,18 @@ def login_view(request):
 
 
 def register(request):
+    """
+    View function for registering a new student user.
+    """
     if request.method == "POST":
-        form = StudentRegistrationForm(request.POST)
+        form = UserStudentRegistrationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
+            # Check if email already exists
             if User.objects.filter(email=email).exists():
                 messages.warning(request, "Email address already exists!")
             else:
+                # Create user and student objects and save to the database
                 user = form.save(commit=False)
                 student = Student(
                     user=user,
@@ -66,14 +73,14 @@ def register(request):
         else:
             messages.warning(request, "Unable to create account!")
     else:
-        form = StudentRegistrationForm()
+        form = UserStudentRegistrationForm()
 
     context = {"title": "Sign Up", "form": form}
     return render(request, "users/register.html", context)
 
 
-@login_required_message
-@login_required
+@login_required_with_message
+@redirect_if_admin
 def dashboard(request):
     # Get the modules for the courses
     course = request.user.student.course
@@ -95,16 +102,18 @@ def dashboard(request):
     return render(request, "users/dashboard.html", context)
 
 
-@login_required_message
-@login_required
+@login_required_with_message
+@redirect_if_admin
 def profile(request):
+    """
+    View function to display and update the user's profile.
+    """
+    user = request.user
     if request.method == "POST":
         # Handle form submission
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(
-            request.POST, request.FILES, instance=request.user.student
-        )
-        date = datetime.strptime(p_form.data["dob"], '%Y-%m-%d')
+        u_form = UserUpdateForm(request.POST, instance=user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.student)
+        date = datetime.strptime(p_form.data["dob"], "%Y-%m-%d")
         if date.date() > timezone.localtime(timezone.now()).date():
             messages.error(request, "Date of birth cannot be in the future!")
             context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
@@ -118,26 +127,31 @@ def profile(request):
             messages.warning(request, "Profile could not be updated!")
     else:
         # Display the profile form
-        u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.student)
+        u_form = UserUpdateForm(instance=user)
+        p_form = ProfileUpdateForm(instance=user.student)
     context = {"u_form": u_form, "p_form": p_form, "title": "Student Profile"}
     return render(request, "users/profile.html", context)
 
 
 class CustomLogoutView(LogoutView):
+    """
+    Custom view to handle user logout and redirect to home page.
+    """
+
     next_page = "studentregistration:home"
 
 
-@login_required_message
-@login_required
+@login_required_with_message
 def change_password(request):
+    """
+    View function to handle password change for logged-in users.
+    """
     if request.method == "POST":
         form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(
-                request, user
-            )  # Important, to update the session with the new password
+            # update the session with the new password
+            update_session_auth_hash(request, user)
             messages.success(request, "Your password was successfully updated!")
             return redirect("dashboard")
         else:

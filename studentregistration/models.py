@@ -15,6 +15,9 @@ class Module(models.Model):
     courses = models.ManyToManyField(Group, related_name="modules")
 
     def __str__(self):
+        """
+        Returns a string representation of the model.
+        """
         return self.name
 
     class Meta:
@@ -23,14 +26,17 @@ class Module(models.Model):
 
     @property
     def attached_courses(self):
+        # returns a list of courses a module belongs to
         return self.courses.all()
 
-    @property
-    def registered_students(self):
-        return [registration.student for registration in self.registrations.all()]
+    # @property
+    # def registered_students(self):
+    #     # returns a list of students registered to a module
+    #     return [registration.student for registration in self.registrations.all()]
 
     @property
     def student_registration_details(self):
+        # custom list of students registration details including registration date
         return [
             {"student": registration.student, "date": registration.registration_date}
             for registration in self.registrations.all()
@@ -56,6 +62,9 @@ class Registration(models.Model):
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        """
+        Returns a string representation of the model.
+        """
         return f"{self.student.user.username} - {self.module.name}"
 
     class Meta:
@@ -79,6 +88,9 @@ class Job(models.Model):
     job_country = models.CharField(max_length=15, null=True, blank=True)
 
     def __str__(self):
+        """
+        Returns a string representation of the model.
+        """
         return f"EMPLOYER: {self.employer_name} --- JOB: {self.job_title}"
 
     class Meta:

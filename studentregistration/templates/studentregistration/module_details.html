@@ -1,32 +1,31 @@
-{% extends "studentregistration/base.html" %}
-{% block content %}
-    {% load static %}
-    <!-- =======================
+{% extends "studentregistration/base.html" %} {% block content %} 
+{% load static %}
+<!-- =======================
         Page intro START -->
-    <section class="bg-blue py-7">
-        <div class="container">
-            <div class="row justify-content-lg-between">
-                <div class="col-lg-8">
-                    <!-- Title -->
-                    <h1 class="text-white">{{ module.name }}</h1>
-                    <p class="text-white">{{ module.description }}.</p>
+<section class="bg-blue py-7">
+  <div class="container">
+    <div class="row justify-content-lg-between">
+      <div class="col-lg-8">
+        <!-- Title -->
+        <h1 class="text-white">{{ module.name }}</h1>
+        <p class="text-white">{{ module.description }}.</p>
 
-                    <!-- Content -->
-                    <ul class="list-inline mb-5">
-                        <li class="list-inline-item h6 me-4 mb-1 mb-sm-0 text-white">
+        <!-- Content -->
+        <ul class="list-inline mb-5">
+          <li class="list-inline-item h6 me-4 mb-1 mb-sm-0 text-white">
             <span class="fw-light">
               <i class="fas fa-book text-purple"></i>
               Code: </span
             >{{ module.code }}
-                        </li>
-                        <li class="list-inline-item me-4 mb-1 mb-sm-0">
-                            <ul class="list-inline mb-0">
-                                <li class="list-inline-item ms-2 h6 text-white">
+          </li>
+          <li class="list-inline-item me-4 mb-1 mb-sm-0">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item ms-2 h6 text-white">
                 <span class="fw-light"
-                ><i class="fas fa-star text-purple"> </i> Credit: </span
+                  ><i class="fas fa-star text-purple"> </i> Credit: </span
                 >{{ module.credit }}
-                                </li>
-                                <li class="list-inline-item ms-2 h6 text-white">
+              </li>
+              <li class="list-inline-item ms-2 h6 text-white">
                 <span class="fw-light">
                   <i class="fas fa-graduation-cap text-purple"></i>
                   Category: {{ module.category }}
@@ -92,12 +91,39 @@
     <!-- =======================
         Page intro END -->
 
-
-    <!-- =======================
+<!-- =======================
     Page content START -->
-    <section class="pt-0">
-        <div class="container">
-            <div class="row">
+<section class="pt-0">
+  <div class="container">
+    <div class="row">
+      <!-- Main content START -->
+      <div class="col-12">
+        <div class="card shadow rounded-2 p-0 mt-n5">
+          <!-- Tabs START -->
+          <div class="card-header border-bottom px-4 pt-3 pb-0">
+            <ul
+              class="nav nav-bottom-line py-0"
+              id="course-pills-tab"
+              role="tablist"
+            >
+              <!-- Tab item -->
+              <li class="nav-item me-2 me-sm-4" role="presentation">
+                <button
+                  class="nav-link mb-2 mb-md-0 active"
+                  id="course-pills-tab-1"
+                  data-bs-toggle="pill"
+                  data-bs-target="#course-pills-1"
+                  type="button"
+                  role="tab"
+                  aria-controls="course-pills-1"
+                  aria-selected="true"
+                >
+                  Student Registrations
+                </button>
+              </li>
+            </ul>
+          </div>
+          <!-- Tabs END -->
 
                 <!-- Main content START -->
                 <div class="col-12">
@@ -158,10 +184,22 @@
                                                                                     {{ registration.student.user.first_name }} {{ registration.student.user.last_name }}
                                                                                 </a>
                                                                             </h5>
+                                                                            {% if registration.student.city  or registration.student.country %}
                                                                             <span class="text-body small">
-                                      <i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>
-                                      {{ registration.student.city }}, {{ registration.student.country }}
-                                    </span>
+                                                                              <i
+                                                                                class="fas fa-fw fa-map-marker-alt me-1 mt-1"
+                                                                              ></i>
+                                                                              
+                                                                              {% if registration.student.city %}
+                                                                                {{ registration.student.city }}, 
+                                                                              {% endif %}
+                                                                              
+                                                                              {% if registration.student.country %}
+                                                                                {{ registration.student.country }}
+                                                                              {% endif %}
+                                                                                
+                                                                            </span>
+                                                                            {% endif %}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -194,37 +232,77 @@
                                 {% else %}
                                     <p>Login to see other registered student 😉</p>
                                 {% endif %}
+                                  
+                              </div>
                             </div>
+                          </div>
+
+                          <!-- Card footer -->
+                          <div
+                            class="
+                              card-footer
+                              bg-transparent
+                              border-top border-purple
+                            "
+                          >
+                            <div
+                              class="
+                                d-sm-flex
+                                justify-content-between
+                                align-items-center
+                              "
+                            >
+                              <!-- Rating star -->
+                              <h6 class="mb-2 mb-sm-0">
+                                <i class="bi bi-calendar fa-fw text-purple me-2"></i>
+                                <span class="text-body">Registered on:</span>
+                                {{ registration.date }}
+                              </h6>
+                            </div>
+                          </div>
                         </div>
-                        <!-- Tab contents END -->
+                      </div>
+                      <!-- Card item END -->
+                      {% endfor %}
                     </div>
-                </div>
-
-                <!-- Main content END -->
+                  {% else %}
+                    <p>Register for module to see other registered student</p>
+                  {% endif %} 
+                {% else %}
+                  <p>Yay! You're about to be the first on the module. 🎉🎊</p>
+                {% endif %}
+              {% else %}
+                <p>Login to see other registered student</p>
+              {% endif %}
             </div>
-            <!-- Row END -->
+          </div>
+          <!-- Tab contents END -->
         </div>
-    </section>
-    <!-- =======================
+      </div>
+      <!-- Main content END -->
+    </div>
+    <!-- Row END -->
+  </div>
+</section>
+<!-- =======================
         Page content END -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function unregisterModule(moduleId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function unregisterModule(moduleId) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
 
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#800080',
-                confirmButtonText: 'Yes, unregister module!'
-            })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "/module/" + moduleId + "/unregister";
-                    }
-                })
-        }
-    </script>
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#800080",
+      confirmButtonText: "Yes, unregister module!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/module/" + moduleId + "/unregister";
+      }
+    });
+  }
+</script>
 {% endblock %}

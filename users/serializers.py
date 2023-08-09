@@ -7,7 +7,12 @@ from studentregistration.models import Module, Registration, Job
 
 
 class UsernameHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+    """
+    Custom field to generate hyperlinks based on usernames rather than primary keys.
+    """
+
     def to_representation(self, value):
+        # Constructs the hyperlink using the user's username
         username = value.user.username
         request = self.context.get("request")
         kwargs = {self.lookup_field: username}
@@ -16,6 +21,10 @@ class UsernameHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the User model.
+    """
+
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -31,6 +40,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for the Student model, including related fields from the User model.
+    """
+
     course = serializers.SlugRelatedField(
         queryset=Group.objects.all(), slug_field="name"
     )
@@ -55,11 +68,19 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StudentRegistrationDetailsSerializer(serializers.Serializer):
+    """
+    Serializer for showing registration details of a student.
+    """
+
     student = serializers.CharField()
     date = serializers.DateTimeField()
 
 
 class ModuleSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for the Module model with related course data and student registration details.
+    """
+
     courses = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
     url = serializers.HyperlinkedIdentityField(
         view_name="module-detail", lookup_field="code"
@@ -84,6 +105,10 @@ class ModuleSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CourseModules(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for displaying modules related to a course.
+    """
+
     url = serializers.HyperlinkedIdentityField(
         view_name="module-detail", lookup_field="code"
     )
@@ -98,6 +123,10 @@ class CourseModules(serializers.HyperlinkedModelSerializer):
 
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for the Course (Group) model including related module data.
+    """
+
     modules = CourseModules(many=True, read_only=True)
 
     class Meta:
@@ -106,6 +135,10 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ModuleRegistrationSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for displaying module details in registration.
+    """
+
     url = serializers.HyperlinkedIdentityField(
         view_name="module-detail", lookup_field="code"
     )
@@ -116,6 +149,10 @@ class ModuleRegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StudentRegistrationSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for displaying student details in registration.
+    """
+
     course = serializers.SlugRelatedField(
         queryset=Group.objects.all(), slug_field="name"
     )
@@ -130,6 +167,10 @@ class StudentRegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for the Registration model, including related student and module data.
+    """
+
     student_id = serializers.PrimaryKeyRelatedField(
         source="student.user.username",
         read_only=True,
@@ -146,6 +187,10 @@ class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
+    """
+    Simple serializer for the Job model, including all its fields.
+    """
+
     class Meta:
         model = Job
         fields = "__all__"
